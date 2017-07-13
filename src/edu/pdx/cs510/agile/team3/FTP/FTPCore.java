@@ -47,7 +47,7 @@ public class FTPCore {
         try {
             ftpClient.login(serverInfo.username, serverInfo.password);
         } catch (IOException e) {
-            throw new ConnectionFailedException("Connection to FTP server failed: invalid username or password");
+            throw new ConnectionFailedException("Invalid username or password");
         }
 
         FTPConnection ftpConnection = new FTPConnection(serverInfo);

@@ -33,7 +33,7 @@ public class FTPServerInfo {
         return    "FTP Connection: \n"
                 + " connectionName: " + connectionName + "\n"
                 + " host: " + host + "\n"
-                + " password: " + password + "\n"
+                + " password: " + "******" + "\n"
                 + " username: " + username + "\n"
                 + " port: " + port + "\n";
     }
