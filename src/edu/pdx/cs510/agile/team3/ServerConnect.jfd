@@ -1,0 +1,53 @@
+JFDML JFormDesigner: "6.0.1.0.112" Java: "1.8.0_112-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space :p:89:p, par t {comp lbl_password::::103:x, comp lbl_username::::103:x, comp lbl_Connect::t::103:x, comp lbl_portnumber::l:::x}, space u:::p, par l:::p {comp txt_portnumber::::126:x, comp txt_serveraddress::::126:x, comp txt_username::::126:x, comp txt_password::::126:x}, space :p:70:p}, seq l {space :p:116:p, comp btn_connect:::p::p, space u:::p, comp btn_saveconnection:::p::p, space ::56:x}}"
+			"$verticalGroup": "par l {seq l {space :p:66:p, par b {comp lbl_Connect::b:p::p, comp txt_serveraddress::b:p::p}, space s:::p, par b {comp txt_portnumber::b:p::p, comp lbl_portnumber::b:p::p}, space s:::p, par b {comp lbl_username::b:p::p, comp txt_username::b:p::p}, space s:::p, par b {comp lbl_password::b:p::p, comp txt_password::b:p::p}, space s:::p, par b {comp btn_connect::b:p::p, comp btn_saveconnection::b:p::p}, space ::34:x}}"
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_Connect"
+				"text": "Server Address:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_serveraddress"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_portnumber"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_portnumber"
+				"text": "Port Number:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_username"
+				"text": "User Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_username"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_password"
+				"text": "Password:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_password"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btn_connect"
+				"text": "Connect"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btn_connectActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btn_saveconnection"
+				"text": "Save Connection"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}
