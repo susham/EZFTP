@@ -34,6 +34,7 @@ public class FTPServerInfo {
                 + " connectionName: " + connectionName + "\n"
                 + " host: " + host + "\n"
                 + " password: " + "******" + "\n"
+                + " password: " + password + "\n"
                 + " username: " + username + "\n"
                 + " port: " + port + "\n";
     }
