@@ -1,5 +1,9 @@
 .idea/
+.gradle/
 /out/
+build/
 target/
 .idea_modules/
 *.iml
+*.iws
+*.ipr
