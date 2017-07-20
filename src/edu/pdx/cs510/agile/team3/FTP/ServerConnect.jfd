@@ -1,0 +1,68 @@
+JFDML JFormDesigner: "6.0.1.0.112" Java: "1.8.0_112-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq t {space :0:0:x, comp lbl_ServerConnect:::p::p, space :p:135:p}, seq {par l {seq {space :p:104:p, comp btn_connect:::p::p, space :p:26:p, comp btn_save:::p:80:p}, seq l {space :p:83:p, par t:::p {comp lbl_serveraddress:::::x, comp lbl_username::t:::x, comp lbl_password::t:::x, comp lbl_connectionname::t:::x, comp lbl_serverport::t:::x}, space s:::p, par l:::p {comp txt_serveraddress::::92:x, comp txt_username::::92:x, comp txt_serverpassword::::92:x, comp txt_connectionName::l::92:x, comp txt_portno::l::92:x}}}, space ::91:x}}"
+			"$verticalGroup": "par l {seq l {space :::p, comp lbl_ServerConnect:::p::p, space s:::p, par l {comp lbl_serveraddress:::p::p, comp txt_serveraddress:::p::p}, space s:::p, par b {comp lbl_serverport::b:p::p, comp txt_portno::b:p::p}, space :p:22:p, par b {comp lbl_username::b:p::p, comp txt_username::b:p::p}, space s:::p, par b {comp lbl_password::b:p::p, comp txt_serverpassword::b:p::p}, space :p:9:p, par b {comp lbl_connectionname::b:p::p, comp txt_connectionName::b:p::p}, space u:::p, par b {comp btn_connect::b:p::p, comp btn_save::b:p::p}, space ::1:x}}"
+		} ) {
+			name: "this"
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_ServerConnect"
+				"text": "Server Connect"
+				"font": new java.awt.Font( ".SF NS Text", 1, 16 )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_serveraddress"
+				"text": "Server Address:"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_serverport"
+				"text": "Server Port:"
+				"horizontalAlignment": 4
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_username"
+				"text": "Username:"
+				"horizontalAlignment": 4
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_password"
+				"text": "Password:"
+				"horizontalAlignment": 4
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_serveraddress"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_portno"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_username"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btn_connect"
+				"text": "Connect"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "connect_to_Server", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btn_save"
+				"text": "Save"
+			} )
+			add( new FormComponent( "javax.swing.JPasswordField" ) {
+				name: "txt_serverpassword"
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "lbl_connectionname"
+				"text": "Connection Name:"
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txt_connectionName"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

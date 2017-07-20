@@ -1,4 +1,4 @@
-package edu.pdx.cs510.agile.team3;
+package edu.pdx.cs510.agile.team3.FTP;
 
 /**
  * Created by henry on 7/12/17.
