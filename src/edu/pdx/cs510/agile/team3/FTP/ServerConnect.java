@@ -21,8 +21,8 @@ public class ServerConnect extends JFrame {
     //This Method uses the FTPCore.connect() method to connect to the server specified by the user.
     private void connect_to_Server(ActionEvent e) {
 
-        String username=txt_username.getText();
-        String password=String.valueOf(txt_serverpassword.getPassword());
+        String username=txt_username.getText().trim();
+        String password=new String(txt_serverpassword.getPassword()).trim();
         String serveraddress=txt_serveraddress.getText();
         int portno=Integer.parseInt(txt_portno.getText());
         String connection_name=txt_connectionName.getText();
