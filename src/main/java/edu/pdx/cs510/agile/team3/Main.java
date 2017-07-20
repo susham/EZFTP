@@ -9,8 +9,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-        ServerConnect serverConnect= new ServerConnect();
-        serverConnect.setVisible(true);
+        //ServerConnect serverConnect= new ServerConnect();
+        //serverConnect.setVisible(true);
         CLIClient cliClient= new CLIClient();
         cliClient.start(args);
     }
