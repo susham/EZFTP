@@ -155,7 +155,7 @@ public class CLIClient {
     public void start(String[] args) {
 
         /*
-        TEST FTP SERVER INFO
+        // TEST FTP SERVER INFO
         FTPServerInfo serverInfo = new FTPServerInfo(
                 "Test server",
                 "138.68.11.232",
@@ -163,7 +163,7 @@ public class CLIClient {
                 "imanagiledude",
                 21
         );
-        */
+*/
 
         // print a line to make things more readable
         System.out.println("");

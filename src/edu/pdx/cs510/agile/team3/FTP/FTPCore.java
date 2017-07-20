@@ -22,13 +22,18 @@ public class FTPCore {
     }
 
     public void disconnect() {
-        isConnected = false;
-        currentConnection = null;
+        try {
+            ftpClient.logout();
+        } catch (IOException e) {
+            // Don't care about this error!
+        }
         try {
             ftpClient.disconnect();
         } catch (IOException e) {
             // Don't care about this error!
         }
+        isConnected = false;
+        currentConnection = null;
     }
 
     // Connects ftpClient to the server described by serverInfo.
@@ -45,9 +50,11 @@ public class FTPCore {
         }
 
         try {
-            ftpClient.login(serverInfo.username, serverInfo.password);
+            if (!ftpClient.login(serverInfo.username, serverInfo.password)) {
+                throw new ConnectionFailedException("Invalid Username or Password");
+            }
         } catch (IOException e) {
-            throw new ConnectionFailedException("Invalid username or password");
+            throw new ConnectionFailedException(e.getMessage());
         }
 
         FTPConnection ftpConnection = new FTPConnection(serverInfo);
