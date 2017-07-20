@@ -12,9 +12,6 @@ public class Main {
         ServerConnect serverConnect= new ServerConnect();
         serverConnect.setVisible(true);
         CLIClient cliClient= new CLIClient();
-
-
-
         cliClient.start(args);
     }
 }
