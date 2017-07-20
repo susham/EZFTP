@@ -12,6 +12,8 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+    // If you want to add another dependency do it in the form: 'groupId:artifactId:version'
+    // You can search for ids and versions of packages you want to use on jcenter
 
     compile 'commons-net:commons-net:3.6'
     compile 'commons-cli:commons-cli:1.4'
