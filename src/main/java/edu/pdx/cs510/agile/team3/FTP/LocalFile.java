@@ -9,7 +9,8 @@ import java.util.List;
  */
 
 /*
-* Local File class has the method getrootdirectoryList to retrieve the list of root directories of the local machine.
+* Local File class has the method getRootList to retrieve the list of root directories of the local machine.
+* getFileListByPath method returns the list of files and directories present under the path specified.
 *
 *
 *
