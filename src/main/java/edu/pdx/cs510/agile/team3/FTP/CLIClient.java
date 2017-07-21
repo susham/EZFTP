@@ -103,6 +103,12 @@ public class CLIClient {
         nameOption.setRequired(false);
         options.addOption(nameOption);
 
+        Option rootDirectoriesoption= new Option("l",
+                false,
+                "list all the root directories of the local machine");
+        options.addOption(rootDirectoriesoption);
+
+
         configured = true;
     }
 
@@ -201,6 +207,7 @@ public class CLIClient {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("ftpa", options);
     }
+
 
     private FTPCore ftpCore;
     private Options options;

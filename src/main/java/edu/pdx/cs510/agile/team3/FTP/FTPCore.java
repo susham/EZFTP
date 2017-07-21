@@ -6,6 +6,7 @@ package edu.pdx.cs510.agile.team3.FTP;
 
 import org.apache.commons.net.ftp.*;
 
+import java.io.File;
 import java.io.IOException;
 
 // Core FTP class.
@@ -62,6 +63,7 @@ public class FTPCore {
         currentConnection = ftpConnection;
         return ftpConnection;
     }
+
 
     private boolean isConnected;
     private FTPConnection currentConnection;
