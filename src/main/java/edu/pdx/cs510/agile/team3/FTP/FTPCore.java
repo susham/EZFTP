@@ -19,9 +19,12 @@ import java.util.Vector;
 public class FTPCore {
 
     public FTPCore() {
-        isConnected = false;
         currentConnection = null;
         ftpClient = new FTPClient();
+    }
+
+    public boolean isConnected() {
+        return ftpClient.isConnected();
     }
 
     public void disconnect() {
@@ -35,7 +38,6 @@ public class FTPCore {
         } catch (IOException e) {
             // Don't care about this error!
         }
-        isConnected = false;
         currentConnection = null;
     }
 
@@ -61,14 +63,13 @@ public class FTPCore {
         }
 
         FTPConnection ftpConnection = new FTPConnection(serverInfo);
-        isConnected = true;
         currentConnection = ftpConnection;
         return ftpConnection;
     }
 
     // returns directory contents at specified path.
     public List<RemoteFile> getDirectoryContentsAtPath(String path) throws FTPConnectionClosedException, IOException {
-        if (!isConnected) {
+        if (!isConnected()) {
             throw new FTPConnectionClosedException("Not connected to an FTP server");
         }
 
@@ -95,7 +96,6 @@ public class FTPCore {
         return contents;
     }
 
-    private boolean isConnected;
     private FTPConnection currentConnection;
     private FTPClient ftpClient;
 }
