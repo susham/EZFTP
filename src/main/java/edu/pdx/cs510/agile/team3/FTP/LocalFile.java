@@ -1,11 +1,13 @@
 package edu.pdx.cs510.agile.team3.FTP;
 
+import java.io.File;
+
 /**
- * Created by henry on 7/22/17.
+ * Created by sushamkumar on 7/21/17.
  */
-public class RemoteFile extends FileBase {
-    public RemoteFile(String fileName, String filePath, boolean directoryFlag) {
-        super(fileName, filePath, directoryFlag, true);
+public class LocalFile extends FileBase {
+    public LocalFile(String fileName, String filePath, boolean directoryFlag) {
+        super(fileName, filePath, directoryFlag, false);
     }
 
     @Override
@@ -25,5 +27,4 @@ public class RemoteFile extends FileBase {
                 && casted.remoteFlag == remoteFlag
                 && casted.directoryFlag == directoryFlag;
     }
-
 }

@@ -61,6 +61,13 @@ public abstract class FileBase {
         return displayStr;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        // Can't compare abstract base class
+        assert(false);
+        return false;
+    }
+
     protected String fileName;
     protected String filePath;
     protected boolean directoryFlag;

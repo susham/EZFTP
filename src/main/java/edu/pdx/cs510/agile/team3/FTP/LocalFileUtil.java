@@ -15,9 +15,9 @@ import java.util.List;
 public class LocalFileUtil {
 
     //returns a list of root directories of the local machine along with its path and whether the file is a directory or not.
-    public List<LocalFileInfo> getRootList() {
+    public List<LocalFile> getRootList() {
 
-        ArrayList<LocalFileInfo> root_directorylist= new ArrayList();
+        ArrayList<LocalFile> root_directorylist= new ArrayList();
         File[] listroots = File.listRoots(); //listRoots method lists all the root directories of the local machine.
 
         if (listroots.length > 0) {
@@ -26,10 +26,10 @@ public class LocalFileUtil {
                 if (root_directories.length > 0) {
                     for (File root_directory : root_directories) {
 
-                        LocalFileInfo localFileInfo= new LocalFileInfo(root_directory.getName(),
+                        LocalFile localFile = new LocalFile(root_directory.getName(),
                                 root_directory.getPath(),
                                 root_directory.isDirectory());
-                        root_directorylist.add(localFileInfo);
+                        root_directorylist.add(localFile);
                         //System.out.println(root_directory);
                     }
                 }
@@ -39,9 +39,9 @@ public class LocalFileUtil {
     }
 
     //returns the list of file info, which are present under the path provided.
-    public List<LocalFileInfo> getFileListByPath(String filePath) {
+    public List<LocalFile> getFileListByPath(String filePath) {
 
-        List<LocalFileInfo> fileInfoList = new ArrayList<>();
+        List<LocalFile> fileInfoList = new ArrayList<>();
         if(!filePath.isEmpty() && filePath != null)
         {
             File userfile = new File(filePath);
@@ -54,10 +54,10 @@ public class LocalFileUtil {
                 if(fileList.length > 0) //check if the directory has any files under it.
                 {
                     for (File file:fileList) {
-                        LocalFileInfo localFileInfo= new LocalFileInfo(file.getName(),
+                        LocalFile localFile = new LocalFile(file.getName(),
                                 file.getPath(),
                                 file.isDirectory());
-                        fileInfoList.add(localFileInfo);
+                        fileInfoList.add(localFile);
                     }
                 }
             }
