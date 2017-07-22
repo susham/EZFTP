@@ -5,43 +5,13 @@ import java.io.File;
 /**
  * Created by sushamkumar on 7/21/17.
  */
-public class LocalFileInfo {
+public class LocalFileInfo extends FileBase {
 
     public LocalFileInfo() {
+        super();
     }
 
-    public LocalFileInfo(String fileName, String filePath, boolean IsDirectory) {
-        this.fileName = fileName;
-        this.filePath = filePath;
-        this.IsDirectory = IsDirectory;
+    public LocalFileInfo(String fileName, String filePath, boolean directoryFlag) {
+        super(fileName, filePath, directoryFlag, false);
     }
-    
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public boolean isDirectory() {
-        return IsDirectory;
-    }
-
-    public void setDirectory(boolean directory) {
-        IsDirectory = directory;
-    }
-
-    private String fileName;
-    private String filePath;
-    private boolean IsDirectory;
-
 }
