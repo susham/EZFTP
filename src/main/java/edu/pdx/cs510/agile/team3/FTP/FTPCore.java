@@ -81,18 +81,18 @@ public class FTPCore {
             throw new IOException("No such file or directory");
         }
 
-        ftpClient.changeToParentDirectory();
-        String parentDirectory = ftpClient.printWorkingDirectory();
-        ftpClient.changeWorkingDirectory(oldWorkingDirectory);
+        String currentDirectory = ftpClient.printWorkingDirectory();
 
         // Convert FTPFile contents into RemoteFiles
         List<RemoteFile> contents = new Vector<RemoteFile>(ftpContents.length);
         for (FTPFile file : ftpContents) {
             contents.add(new RemoteFile(file.getName(),
-                    parentDirectory,
+                    currentDirectory,
                     file.isDirectory()));
         }
 
+        // Change back to original WD
+        ftpClient.changeWorkingDirectory(oldWorkingDirectory);
         return contents;
     }
 
