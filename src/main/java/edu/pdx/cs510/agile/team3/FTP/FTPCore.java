@@ -76,7 +76,10 @@ public class FTPCore {
 
         // Find the parent directory
         String oldWorkingDirectory = ftpClient.printWorkingDirectory();
-        ftpClient.changeWorkingDirectory(path);
+        if (!ftpClient.changeWorkingDirectory(path)) {
+            throw new IOException("No such file or directory");
+        }
+
         ftpClient.changeToParentDirectory();
         String parentDirectory = ftpClient.printWorkingDirectory();
         ftpClient.changeWorkingDirectory(oldWorkingDirectory);
@@ -91,7 +94,6 @@ public class FTPCore {
 
         return contents;
     }
-
 
     private boolean isConnected;
     private FTPConnection currentConnection;

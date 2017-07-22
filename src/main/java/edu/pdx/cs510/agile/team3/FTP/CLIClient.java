@@ -178,16 +178,17 @@ public class CLIClient {
             return false;
         }
 
+        String pathRelative = "~/" + path;
+
         try {
             List<RemoteFile> contents = ftpCore.getDirectoryContentsAtPath(path);
-
-            System.out.println(path + "$");
+            System.out.println(pathRelative + "$");
             for (RemoteFile file : contents) {
                 System.out.println("  " + file.toString());
             }
             return true;
         } catch (IOException e) {
-            System.out.println("Could not print contents of directory at path " + path + ": " + e.getMessage());
+            System.out.println("Could not print contents of directory at path " + pathRelative + ": " + e.getMessage());
             return false;
         }
     }
@@ -246,7 +247,6 @@ public class CLIClient {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("ftpa", options);
     }
-
 
     private FTPCore ftpCore;
     private Options options;
