@@ -50,6 +50,17 @@ public abstract class FileBase {
         return remoteFlag;
     }
 
+    // Get a pretty string representation
+    public String toString() {
+        String displayStr;
+        if (directoryFlag) {
+            displayStr = "D " + fileName;
+        } else {
+            displayStr = "F " + fileName;
+        }
+        return displayStr;
+    }
+
     protected String fileName;
     protected String filePath;
     protected boolean directoryFlag;
