@@ -8,6 +8,8 @@ import org.apache.commons.net.ftp.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 // Core FTP class.
 // Contains logic for interacting with java FTPClient -- all main FTP functionality lives here!
@@ -62,6 +64,32 @@ public class FTPCore {
         isConnected = true;
         currentConnection = ftpConnection;
         return ftpConnection;
+    }
+
+    // returns directory contents at specified path.
+    public List<RemoteFile> getDirectoryContentsAtPath(String path) throws FTPConnectionClosedException, IOException {
+        if (!isConnected) {
+            throw new FTPConnectionClosedException("Not connected to an FTP server");
+        }
+
+        FTPFile[] ftpContents = ftpClient.listFiles(path);
+
+        // Find the parent directory
+        String oldWorkingDirectory = ftpClient.printWorkingDirectory();
+        ftpClient.changeWorkingDirectory(path);
+        ftpClient.changeToParentDirectory();
+        String parentDirectory = ftpClient.printWorkingDirectory();
+        ftpClient.changeWorkingDirectory(oldWorkingDirectory);
+
+        // Convert FTPFile contents into RemoteFiles
+        List<RemoteFile> contents = new Vector<RemoteFile>(ftpContents.length);
+        for (FTPFile file : ftpContents) {
+            contents.add(new RemoteFile(file.getName(),
+                    parentDirectory,
+                    file.isDirectory()));
+        }
+
+        return contents;
     }
 
 
