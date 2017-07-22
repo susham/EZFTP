@@ -1,8 +1,6 @@
 
 import org.junit.Assert;
-
 import org.junit.Test;
-
 import edu.pdx.cs510.agile.team3.FTP.*;
 
 /**
@@ -15,7 +13,7 @@ public class ConnectionTest {
     @Test
     public void testCanConnect() {
         FTPCore ftpCore = new FTPCore();
-        FTPServerInfo serverInfo = TestUtilites.getTestServerInfo();
+        FTPServerInfo serverInfo = TestUtil.getTestServerInfo();
 
         // Check that a. we can connect and b. connection does not return a null FTPConnection object
         try {
@@ -45,9 +43,6 @@ public class ConnectionTest {
                     !ftpCore.isConnected());
             ftpCore.disconnect();
         }
-
-
-
 
         /*
         // Check that an assertion is thrown if we give bogus host, port, username, or password
@@ -128,7 +123,7 @@ public class ConnectionTest {
     @Test
     public void testCanConnectAndDisconnect() {
         FTPCore ftpCore = new FTPCore();
-        FTPServerInfo serverInfo = TestUtilites.getTestServerInfo();
+        FTPServerInfo serverInfo = TestUtil.getTestServerInfo();
 
         Assert.assertTrue("FAILED - FTPCore should not be connected before call to connect",
                 !ftpCore.isConnected());
@@ -154,6 +149,5 @@ public class ConnectionTest {
         }
         Assert.assertTrue("FAILED - FTPCore should be connected after reconnecting after disconnect",
                 ftpCore.isConnected());
-        
     }
 }
