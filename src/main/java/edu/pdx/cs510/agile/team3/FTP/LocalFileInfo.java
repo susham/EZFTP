@@ -10,6 +10,12 @@ public class LocalFileInfo {
     public LocalFileInfo() {
     }
 
+    public LocalFileInfo(String fileName, String filePath, boolean IsDirectory) {
+        this.fileName = fileName;
+        this.filePath = filePath;
+        this.IsDirectory = IsDirectory;
+    }
+    
     public String getFileName() {
         return fileName;
     }
@@ -37,7 +43,5 @@ public class LocalFileInfo {
     private String fileName;
     private String filePath;
     private boolean IsDirectory;
-
-
 
 }
