@@ -18,6 +18,7 @@ public class Main {
         //ServerConnect serverConnect= new ServerConnect();
         //serverConnect.setVisible(true);
 
+        /*
      LocalFile localFile= new LocalFile();
      List<LocalFileInfo> rootDirectoriesInfo = localFile.getRootList();
         for (LocalFileInfo rootDirectoryInfo:rootDirectoriesInfo){
@@ -25,11 +26,9 @@ public class Main {
             System.out.println("Root Directory Path:"+rootDirectoryInfo.getFilePath());
             System.out.println("Is a Directory:"+rootDirectoryInfo.isDirectory());
         }
+*/
 
-
-    CLIClient cliClient = new CLIClient();
-
-
-
+        CLIClient cliClient = new CLIClient();
+        cliClient.start(args);
     }
 }
