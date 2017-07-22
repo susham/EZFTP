@@ -9,7 +9,7 @@ package edu.pdx.cs510.agile.team3.FTP;
 */
 public abstract class FileBase {
 
-    public FileBase() {
+    private FileBase() {
     }
 
     public FileBase(String fileName,
