@@ -1,10 +1,7 @@
 package edu.pdx.cs510.agile.team3;
 
 
-import edu.pdx.cs510.agile.team3.FTP.CLIClient;
-import edu.pdx.cs510.agile.team3.FTP.LocalFile;
-import edu.pdx.cs510.agile.team3.FTP.LocalFileInfo;
-import edu.pdx.cs510.agile.team3.FTP.ServerConnect;
+import edu.pdx.cs510.agile.team3.FTP.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +14,10 @@ public class Main {
 
         //ServerConnect serverConnect= new ServerConnect();
         //serverConnect.setVisible(true);
+        //FileListViewer fileListViewer= new FileListViewer();
+        //fileListViewer.setVisible(true);
 
-     LocalFile localFile= new LocalFile();
+    LocalFile localFile= new LocalFile();
      List<LocalFileInfo> rootDirectoriesInfo = localFile.getRootList();
         for (LocalFileInfo rootDirectoryInfo:rootDirectoriesInfo){
             System.out.println("Root Directory Name:"+rootDirectoryInfo.getFileName());
@@ -27,9 +26,9 @@ public class Main {
         }
 
 
-    CLIClient cliClient = new CLIClient();
+    //CLIClient cliClient = new CLIClient();
 
-
+//cliClient.start(args);
 
     }
 }

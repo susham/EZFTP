@@ -103,9 +103,11 @@ public class CLIClient {
         nameOption.setRequired(false);
         options.addOption(nameOption);
 
-        Option rootDirectoriesoption= new Option("l",
+        Option rootDirectoriesoption= new Option("ll",
+                "listlocal",
                 false,
                 "list all the root directories of the local machine");
+        rootDirectoriesoption.setRequired(false);
         options.addOption(rootDirectoriesoption);
 
 

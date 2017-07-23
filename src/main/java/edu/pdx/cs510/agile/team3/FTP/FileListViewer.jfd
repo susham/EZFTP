@@ -1,0 +1,48 @@
+JFDML JFormDesigner: "6.0.1.0.112" Java: "1.8.0_112-release" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq l {space :::p, comp panel1:::p::p, par l {seq {space :p:16:p, comp button1:::p::p}, seq l {space s:::p, comp button2:::p::p}}, space s:::p, comp panel2:::::x, space :::p}}"
+			"$verticalGroup": "par l {seq l {space :::p, par l {comp panel1:::::x, comp panel2:::::x}, space :::p}, seq l {space :p:122:p, comp button1:::p::p, space :p:42:p, comp button2:::p::p, space ::223:x}}"
+		} ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane1::::324:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp scrollPane1::::427:x, space :::p}}"
+			} ) {
+				name: "panel1"
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTree" ) {
+						name: "tree1"
+					} )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane2::::356:x, space :::p}}"
+				"$verticalGroup": "par l {seq l {space :::p, comp scrollPane2::::427:x, space :::p}}"
+			} ) {
+				name: "panel2"
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane2"
+					add( new FormComponent( "javax.swing.JTree" ) {
+						name: "tree2"
+					} )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button1"
+				"text": ">>"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "button2"
+				"text": "<<"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 5 )
+			"size": new java.awt.Dimension( 800, 475 )
+		} )
+	}
+}
