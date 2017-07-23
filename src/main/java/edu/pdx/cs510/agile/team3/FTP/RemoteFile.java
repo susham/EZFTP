@@ -1,13 +1,11 @@
 package edu.pdx.cs510.agile.team3.FTP;
 
-import java.io.File;
-
 /**
- * Created by sushamkumar on 7/21/17.
+ * Created by henry on 7/22/17.
  */
-public class LocalFile extends FileBase {
-    public LocalFile(String fileName, String filePath, boolean directoryFlag) {
-        super(fileName, filePath, directoryFlag, false);
+public class RemoteFile extends FileBase {
+    public RemoteFile(String fileName, String filePath, boolean directoryFlag) {
+        super(fileName, filePath, directoryFlag, true);
     }
 
     @Override
@@ -16,11 +14,11 @@ public class LocalFile extends FileBase {
             return true;
         }
 
-        if (!(o instanceof LocalFile)) {
+        if (!(o instanceof RemoteFile)) {
             return false;
         }
 
-        LocalFile casted = (LocalFile) o;
+        RemoteFile casted = (RemoteFile) o;
 
         return casted.fileName.equals(fileName)
                 && casted.filePath.equals(filePath)

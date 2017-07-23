@@ -8,6 +8,8 @@ import org.apache.commons.net.ftp.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 // Core FTP class.
 // Contains logic for interacting with java FTPClient -- all main FTP functionality lives here!
@@ -17,9 +19,12 @@ import java.io.IOException;
 public class FTPCore {
 
     public FTPCore() {
-        isConnected = false;
         currentConnection = null;
         ftpClient = new FTPClient();
+    }
+
+    public boolean isConnected() {
+        return ftpClient.isConnected();
     }
 
     public void disconnect() {
@@ -33,7 +38,6 @@ public class FTPCore {
         } catch (IOException e) {
             // Don't care about this error!
         }
-        isConnected = false;
         currentConnection = null;
     }
 
@@ -59,13 +63,39 @@ public class FTPCore {
         }
 
         FTPConnection ftpConnection = new FTPConnection(serverInfo);
-        isConnected = true;
         currentConnection = ftpConnection;
         return ftpConnection;
     }
 
+    // returns directory contents at specified path.
+    public List<RemoteFile> getDirectoryContentsAtPath(String path) throws FTPConnectionClosedException, IOException {
+        if (!isConnected()) {
+            throw new FTPConnectionClosedException("Not connected to an FTP server");
+        }
 
-    private boolean isConnected;
+        FTPFile[] ftpContents = ftpClient.listFiles(path);
+
+        // Find the parent directory
+        String oldWorkingDirectory = ftpClient.printWorkingDirectory();
+        if (!ftpClient.changeWorkingDirectory(path)) {
+            throw new IOException("No such file or directory");
+        }
+
+        String currentDirectory = ftpClient.printWorkingDirectory();
+
+        // Convert FTPFile contents into RemoteFiles
+        List<RemoteFile> contents = new Vector<RemoteFile>(ftpContents.length);
+        for (FTPFile file : ftpContents) {
+            contents.add(new RemoteFile(file.getName(),
+                    currentDirectory,
+                    file.isDirectory()));
+        }
+
+        // Change back to original WD
+        ftpClient.changeWorkingDirectory(oldWorkingDirectory);
+        return contents;
+    }
+
     private FTPConnection currentConnection;
     private FTPClient ftpClient;
 }
