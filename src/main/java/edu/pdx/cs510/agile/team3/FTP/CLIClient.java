@@ -7,6 +7,9 @@ package edu.pdx.cs510.agile.team3.FTP;
 import edu.pdx.cs510.agile.team3.FTP.*;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+import java.util.List;
+
 //    Core class for command-line interface. Should parse user command, interact with FTPCore, and
 //    display result appropriately.
 //
@@ -53,6 +56,16 @@ public class CLIClient {
         getCommand.setArgs(1);
         getCommand.setArgName("PATH");
         options.addOption(getCommand);
+
+        // List contents of directory at path
+        Option listCommand = new Option("ls",
+                "list",
+                true,
+                "print directory contents at path");
+        listCommand.setArgs(1);
+        listCommand.setArgName("PATH");
+        options.addOption(listCommand);
+
         // End of command options
 
         // Options for setting up the connection. Some are required
@@ -155,7 +168,30 @@ public class CLIClient {
         return true;
     }
 
+    // Print contents of remote directory at path
+    private boolean listRemoteDirectory(FTPServerInfo serverInfo, String path) {
 
+        try {
+            ftpCore.connect(serverInfo);
+        } catch (ConnectionFailedException e) {
+            System.out.println("Connection attempt failed -- " + e.getMessage());
+            return false;
+        }
+
+        String pathRelative = "~/" + path;
+
+        try {
+            List<RemoteFile> contents = ftpCore.getDirectoryContentsAtPath(path);
+            System.out.println(pathRelative + "$");
+            for (RemoteFile file : contents) {
+                System.out.println("  " + file.toString());
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println("Could not print contents of directory at path " + pathRelative + ": " + e.getMessage());
+            return false;
+        }
+    }
 
     // Start the CLI client; parse user input and execute the requested command
     public void start(String[] args) {
@@ -189,6 +225,10 @@ public class CLIClient {
             else if (line.hasOption("get")) {
                 System.out.println("ERROR -- GET NOT IMPLEMENTED YET!!");
             }
+            else if (line.hasOption("list")) {
+                String path = line.getOptionValue("list");
+                listRemoteDirectory(serverInfo, path);
+            }
             else {
                 System.out.println("No command specified \n");
                 printUsage();
@@ -207,7 +247,6 @@ public class CLIClient {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("ftpa", options);
     }
-
 
     private FTPCore ftpCore;
     private Options options;
