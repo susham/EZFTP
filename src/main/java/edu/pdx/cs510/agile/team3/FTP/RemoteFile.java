@@ -25,5 +25,4 @@ public class RemoteFile extends FileBase {
                 && casted.remoteFlag == remoteFlag
                 && casted.directoryFlag == directoryFlag;
     }
-
 }

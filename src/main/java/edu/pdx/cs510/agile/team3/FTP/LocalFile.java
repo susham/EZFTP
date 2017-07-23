@@ -16,11 +16,11 @@ public class LocalFile extends FileBase {
             return true;
         }
 
-        if (!(o instanceof RemoteFile)) {
+        if (!(o instanceof LocalFile)) {
             return false;
         }
 
-        RemoteFile casted = (RemoteFile) o;
+        LocalFile casted = (LocalFile) o;
 
         return casted.fileName.equals(fileName)
                 && casted.filePath.equals(filePath)
