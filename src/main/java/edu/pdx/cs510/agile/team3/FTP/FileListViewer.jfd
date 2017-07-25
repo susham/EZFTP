@@ -21,7 +21,7 @@ new FormModel {
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq l {space :::p, comp scrollPane2::::356:x, space :::p}}"
+				"$horizontalGroup": "par l {seq t {comp scrollPane2::::362:x, space :::p}}"
 				"$verticalGroup": "par l {seq l {space :::p, comp scrollPane2::::427:x, space :::p}}"
 			} ) {
 				name: "panel2"

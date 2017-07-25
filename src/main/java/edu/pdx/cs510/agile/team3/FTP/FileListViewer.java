@@ -7,14 +7,41 @@ package edu.pdx.cs510.agile.team3.FTP;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.GroupLayout;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreeNode;
 
 /**
  * @author Susham Yerabolu
  */
-public class FileListViewer extends JFrame {
+public class FileListViewer extends JFrame implements TreeWillExpandListener {
     public FileListViewer() {
         initComponents();
+
+
+
+
     }
+
+    private TreeNode createNodes() {
+        DefaultMutableTreeNode root;
+        DefaultMutableTreeNode grandparent;
+        DefaultMutableTreeNode parent;
+
+        root = new DefaultMutableTreeNode("San Francisco");
+
+        grandparent = new DefaultMutableTreeNode("Potrero Hill");
+        root.add(grandparent);
+
+        parent = new DefaultMutableTreeNode("Restaurants");
+        grandparent.add(parent);
+
+
+        return root;
+    }
+
 
     private void initComponents() {
 
@@ -78,9 +105,8 @@ public class FileListViewer extends JFrame {
             panel2.setLayout(panel2Layout);
             panel2Layout.setHorizontalGroup(
                 panel2Layout.createParallelGroup()
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                    .addGroup(GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                        .addComponent(scrollPane2, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
                         .addContainerGap())
             );
             panel2Layout.setVerticalGroup(
