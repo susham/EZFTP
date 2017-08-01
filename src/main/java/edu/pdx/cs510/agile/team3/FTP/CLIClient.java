@@ -131,6 +131,16 @@ public class CLIClient {
         newDirectoryOption.setRequired(false);
         options.addOption(newDirectoryOption);
 
+        //Deletes a file at the path given. Takes in one argument which is the path.
+        Option deleteFileOption = new Option("d",
+                "del",
+                true,
+                "Delete a file at the specified path.");
+        deleteFileOption.setArgs(1);
+        deleteFileOption.setArgName("STRING");
+        deleteFileOption.setRequired(false);
+        options.addOption(deleteFileOption);
+
         configured = true;
     }
 
@@ -241,6 +251,10 @@ public class CLIClient {
             else if (line.hasOption("newDir")) {
                 String path = line.getOptionValue("newDir");
                 ftpCore.createNewDirectory(serverInfo, path);
+            }
+            else if (line.hasOption("del")) {
+                String path = line.getOptionValue("del");
+                ftpCore.deleteFile(serverInfo, path);
             }
             else {
                 System.out.println("No command specified \n");

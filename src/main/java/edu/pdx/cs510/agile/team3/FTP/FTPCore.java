@@ -99,11 +99,11 @@ public class FTPCore {
     //Creates a new directory at the path provided.  The path can be relative or absolute.
     //Returns true if the directory was created, otherwise returns false.
     // To create a new directory called "newDirectory" at the root folder
-    // -nd "/newDirectory"
+    // -nd /newDirectory
     // To create a new directory called "newDirectory" in the working directory
-    // -nd "newDirectory"
+    // -nd newDirectory
     // To create a new directory called "newDirectory" at /uploads/newDirectory
-    // -nd "/uploads/newDirectory"
+    // -nd /uploads/newDirectory
     // *note that the "uploads" directory must exist or this will fail and return false
     public Boolean createNewDirectory(FTPServerInfo serverInfo, String path) {
         try {
@@ -121,6 +121,32 @@ public class FTPCore {
 
         //shouldn't ever reach here, just for making compiler happy.
         System.out.println("Directory creation encountered an unexpected error.");
+        return false;
+    }
+
+    //Deletes file at the path provided.  The path can be relative or absolute.
+    //Returns true if the file was deleted, otherwise returns false.
+    // To delete file "ex.txt" in the root directory
+    // -d /ex.txt
+    // To delete file "ex.txt" at /uploads/ex.txt
+    // -d /uploads/ex.txt
+    // *note that the "uploads" directory must exist or this will fail and return false
+    public Boolean deleteFile(FTPServerInfo serverInfo, String path) {
+        try {
+            connect(serverInfo);
+        } catch (ConnectionFailedException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+        try {
+            return ftpClient.deleteFile(path);
+        } catch (IOException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+
+        //shouldn't ever reach here, just for making compiler happy.
+        System.out.println("File deletion encountered an unexpected error.");
         return false;
     }
 
