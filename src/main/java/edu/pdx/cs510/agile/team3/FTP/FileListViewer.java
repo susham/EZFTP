@@ -172,5 +172,15 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
     private JTree tree2;
     private JButton button1;
     private JButton button2;
+
+    @Override
+    public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+
+    }
+
+    @Override
+    public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+
+    }
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
