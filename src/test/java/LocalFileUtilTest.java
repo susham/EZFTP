@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,14 +91,14 @@ public class LocalFileUtilTest {
 
 
     @Test(expected = IOException.class)
-    public void testRenameFileTo() throws IOException {
+    public void testRenameFileToWithBlankValues() throws IOException {
 
         LocalFileUtil localFileUtilTest= new LocalFileUtil();
-        String sourcefilePath="";
+        String sourceFilePath="";
         String oldName="";
         String newName="";
 
-        boolean isRenamed=localFileUtilTest.renameFileTo(sourcefilePath,oldName,newName);
+        boolean isRenamed=localFileUtilTest.renameFileTo(sourceFilePath,oldName,newName);
 
     }
 
@@ -112,16 +113,107 @@ public class LocalFileUtilTest {
     }
 
     @Test
-    public void testSearchDirectoryWithNullValues() throws IOException{
-        LocalFileUtil localFileUtilTest= new LocalFileUtil();
-        localFileUtilTest.SearchFileAtPath(null,null);
+    public void testRenameToWithValidValues() throws IOException {
+        File testRenameDirectory= new File("testDirectory");
+        File testRenameFile;
+        try {
+            if (!testRenameDirectory.exists()) {
+                testRenameDirectory.mkdir();
+            }
+            testRenameFile = new File(testRenameDirectory.getAbsolutePath()+"/newtext.txt");
+            testRenameFile.createNewFile();
+            LocalFileUtil localFileUtilTest= new LocalFileUtil();
+            boolean isRenamed=localFileUtilTest.renameFileTo(testRenameDirectory.getPath(), testRenameFile.getName(),"Test3.txt");
+            if(isRenamed)
+                System.out.println("Renamed Successfully");
+            else
+                System.out.println("Rename was not successful");
+            testRenameFile.delete();
+            testRenameDirectory.delete();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
 
 
     }
+    @Test(expected = IOException.class)
+    public void testSearchDirectoryWithNullValues() throws IOException{
+        LocalFileUtil localFileUtilTest= new LocalFileUtil();
+        localFileUtilTest.SearchFileAtPath(null,null);
+    }
+
+    @Test(expected = IOException.class)
+    public void testSearchDirectoryWithIncorrectPath() throws IOException{
+        LocalFileUtil localFileUtilTest= new LocalFileUtil();
+        localFileUtilTest.SearchFileAtPath("/test/junk",null);
+    }
 
 
+    @Test(expected = IOException.class)
+    public void testSearchDirectoryWithIncorrectParameters() throws IOException{
+        LocalFileUtil localFileUtilTest= new LocalFileUtil();
+        localFileUtilTest.SearchFileAtPath("/test/junk","doesntexist");
+    }
+
+    @Test
+    public void testSearchDirectoryWithNewDirectory() throws IOException{
+        File testDirectory= new File("testDirectory");
+        File testFile,testFile2;
+        try {
+            if (!testDirectory.exists()) {
+                testDirectory.mkdir();
+
+            }
+            testFile = new File(testDirectory.getAbsolutePath()+"/newtext.txt");
+            testFile.createNewFile();
+            testFile2 = new File(testDirectory.getAbsolutePath()+"/newtext2.txt");
+            testFile2.createNewFile();
+            LocalFileUtil localFileUtilTest= new LocalFileUtil();
+            List<LocalFile> searchResults=localFileUtilTest.SearchFileAtPath(testDirectory.getPath(), testFile.getName());
+            System.out.println("Searched Results");
+            for (LocalFile searchedFile:searchResults) {
+                System.out.println(searchedFile.getFileName());
+            }
+            testFile.delete();
+            testFile2.delete();
+            testDirectory.delete();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
 
 
+    @Test
+    public void testSearchDirectoryWithoutFileName() throws IOException{
+        File test1Directory= new File("testDirectory");
+        File test1File,test1File2;
+        try {
+            if (!test1Directory.exists()) {
+                test1Directory.mkdir();
+            }
+            test1File = new File(test1Directory.getAbsolutePath()+"/newtext.txt");
+            test1File.createNewFile();
+            test1File2 = new File(test1Directory.getAbsolutePath()+"/newtext2.txt");
+            test1File2.createNewFile();
+            LocalFileUtil localFileUtilTest= new LocalFileUtil();
+            List<LocalFile> searchResults=localFileUtilTest.SearchFileAtPath(test1Directory.getPath(),"");
+            System.out.println("Searched Results");
+            for (LocalFile searchedFile:searchResults) {
+                System.out.println(searchedFile.getFileName());
+            }
+            test1File2.delete();
+            test1File2.delete();
+            test1Directory.delete();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
 
+    }
 
 }

@@ -77,10 +77,9 @@ public class LocalFileUtil {
     public boolean renameFileTo(String sourcefilePath, String oldName, String newName) throws IOException
     {
         boolean isFileRenamed=false;
-        try {
             if(sourcefilePath != null && newName !=null && oldName!=null ) {
-                String pathWithOldFileName=sourcefilePath+oldName;
-                String pathWithNewFileName=sourcefilePath+newName;
+                String pathWithOldFileName=sourcefilePath+"/"+oldName;
+                String pathWithNewFileName=sourcefilePath+"/"+newName;
                 File sourceFile = new File(pathWithOldFileName);
                 File renameToFile = new File(pathWithNewFileName);
                 if(renameToFile.exists())
@@ -99,12 +98,7 @@ public class LocalFileUtil {
             }
             else
                 throw new IOException("Parameters cannot be null");
-        }
-        catch (Exception e)
-        {
-           throw new IOException("Path is not valid");
 
-        }
         return isFileRenamed;
     }
 
@@ -112,17 +106,12 @@ public class LocalFileUtil {
     public List<LocalFile> SearchFileAtPath(String searchPath, String fileName) throws IOException {
 
         List<LocalFile> directoryFileList = new ArrayList();
-        boolean retrieveAllFiles = false;
-        try {
-            if (fileName.equals("")) {
-                retrieveAllFiles = true;
-            }
-
             if (searchPath != null && fileName != null) {
+
                 File directory = new File(searchPath);
                 if (directory.exists()) {
                     File[] directoryFiles = directory.listFiles();
-                    if (!retrieveAllFiles) {
+                    if (!fileName.equals("")) {
                         for (File file : directoryFiles) {
                             if (file.getName().equals(fileName)) {
                                 directoryFileList.add(new LocalFile(file.getName(), file.getPath(), false));
@@ -143,14 +132,6 @@ public class LocalFileUtil {
             } else {
                 throw new IOException("Parameters cannot be null");
             }
-
-
-        } catch (Exception e) {
-
-            throw new IOException("Search Failed!!");
-        }
-
-
         return directoryFileList;
     }
 

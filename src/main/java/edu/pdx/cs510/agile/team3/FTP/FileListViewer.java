@@ -20,9 +20,6 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
     public FileListViewer() {
         initComponents();
 
-
-
-
     }
 
     private TreeNode createNodes() {
