@@ -96,6 +96,34 @@ public class FTPCore {
         return contents;
     }
 
+    //Creates a new directory at the path provided.  The path can be relative or absolute.
+    //Returns true if the directory was created, otherwise returns false.
+    // To create a new directory called "newDirectory" at the root folder
+    // -nd "/newDirectory"
+    // To create a new directory called "newDirectory" in the working directory
+    // -nd "newDirectory"
+    // To create a new directory called "newDirectory" at /uploads/newDirectory
+    // -nd "/uploads/newDirectory"
+    // *note that the "uploads" directory must exist or this will fail and return false
+    public Boolean createNewDirectory(FTPServerInfo serverInfo, String path) {
+        try {
+            connect(serverInfo);
+        } catch (ConnectionFailedException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+        try {
+            return ftpClient.makeDirectory(path);
+        } catch (IOException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+
+        //shouldn't ever reach here, just for making compiler happy.
+        System.out.println("Directory creation encountered an unexpected error.");
+        return false;
+    }
+
     private FTPConnection currentConnection;
     private FTPClient ftpClient;
 }

@@ -121,6 +121,15 @@ public class CLIClient {
                 "list all the root directories of the local machine");
         options.addOption(rootDirectoriesoption);
 
+        //Creates a new directory from the path given. Takes in one argument which is the path.
+        Option newDirectoryOption = new Option("nd",
+                "newDir",
+                true,
+                "create a new directory at the specified path");
+        newDirectoryOption.setArgs(1);
+        newDirectoryOption.setArgName("STRING");
+        newDirectoryOption.setRequired(false);
+        options.addOption(newDirectoryOption);
 
         configured = true;
     }
@@ -229,6 +238,10 @@ public class CLIClient {
                 String path = line.getOptionValue("list");
                 listRemoteDirectory(serverInfo, path);
             }
+            else if (line.hasOption("newDir")) {
+                String path = line.getOptionValue("newDir");
+                ftpCore.createNewDirectory(serverInfo, path);
+            }
             else {
                 System.out.println("No command specified \n");
                 printUsage();
@@ -246,6 +259,11 @@ public class CLIClient {
     public void printUsage() {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("ftpa", options);
+    }
+
+    public static void main(String[] args) {
+        CLIClient cli = new CLIClient();
+        cli.start(args);
     }
 
     private FTPCore ftpCore;
