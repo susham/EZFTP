@@ -94,11 +94,9 @@ public class LocalFileUtil {
                 {
                     throw new IOException("Renaming file from oldName:"+oldName+" To New Name:"+newName+"Failed!!. Please Try Again");
                 }
-
             }
             else
                 throw new IOException("Parameters cannot be null");
-
         return isFileRenamed;
     }
 
@@ -115,19 +113,15 @@ public class LocalFileUtil {
                         for (File file : directoryFiles) {
                             if (file.getName().equals(fileName)) {
                                 directoryFileList.add(new LocalFile(file.getName(), file.getPath(), false));
-
                             }
                         }
                     } else {
                         for (File file : directoryFiles) {
                             directoryFileList.add(new LocalFile(file.getName(), file.getPath(), file.isDirectory()));
                         }
-
                     }
                 } else {
-
                     throw new IOException("Directory does not exist");
-
                 }
             } else {
                 throw new IOException("Parameters cannot be null");
