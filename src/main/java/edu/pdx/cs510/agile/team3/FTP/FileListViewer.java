@@ -5,6 +5,9 @@
 package edu.pdx.cs510.agile.team3.FTP;
 
 import java.awt.*;
+import java.io.File;
+import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.event.TreeExpansionEvent;
@@ -26,14 +29,28 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
         DefaultMutableTreeNode root;
         DefaultMutableTreeNode grandparent;
         DefaultMutableTreeNode parent;
+        LocalFileUtil localFileUtil= new LocalFileUtil();
+        //java.util.List<LocalFile> localRootList= localFileUtil.getRootList();
+        root = new DefaultMutableTreeNode("root");
 
-        root = new DefaultMutableTreeNode("San Francisco");
+       /* for (LocalFile localroot:localRootList) {
+            DefaultMutableTreeNode directorynode= new DefaultMutableTreeNode(new File(localroot.filePath),true);
+            List<LocalFile> directoryFiles=localFileUtil.getFileListByPath(localroot.filePath);
+            for (LocalFile file: directoryFiles) {
+
+                DefaultMutableTreeNode files_Directory= new DefaultMutableTreeNode(new File(file.filePath),true);
+                directorynode.add(files_Directory);
+                
+            }
+            root.add(directorynode);
+
+        }
 
         grandparent = new DefaultMutableTreeNode("Potrero Hill");
         root.add(grandparent);
 
         parent = new DefaultMutableTreeNode("Restaurants");
-        grandparent.add(parent);
+        grandparent.add(parent);*/
 
 
         return root;
@@ -46,6 +63,7 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
         // Generated using JFormDesigner Evaluation license - Susham Yerabolu
         panel1 = new JPanel();
         scrollPane1 = new JScrollPane();
+
         tree1 = new JTree();
         tree1.setDragEnabled(true);
         panel2 = new JPanel();
@@ -174,6 +192,7 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
 
     @Override
     public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+
 
     }
 

@@ -1,18 +1,11 @@
 import edu.pdx.cs510.agile.team3.FTP.LocalFile;
 import edu.pdx.cs510.agile.team3.FTP.LocalFileUtil;
-import edu.pdx.cs510.agile.team3.FTP.RemoteFile;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by sushamkumar on 7/28/17.
  */
@@ -99,6 +92,7 @@ public class LocalFileUtilTest {
         String newName="";
 
         boolean isRenamed=localFileUtilTest.renameFileTo(sourceFilePath,oldName,newName);
+
 
     }
 

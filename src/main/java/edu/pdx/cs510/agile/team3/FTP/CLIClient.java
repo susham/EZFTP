@@ -123,6 +123,12 @@ public class CLIClient {
         rootDirectoriesoption.setRequired(false);
         options.addOption(rootDirectoriesoption);
 
+        Option renameLocalFileOption= new Option("rlf","RenameLocal",true,"Rename Local File");
+        renameLocalFileOption.setArgs(2);
+        renameLocalFileOption.setArgName("STRING");
+        renameLocalFileOption.setRequired(false);
+        options.addOption(renameLocalFileOption);
+
 
         configured = true;
     }
@@ -195,6 +201,27 @@ public class CLIClient {
         }
     }
 
+
+    private boolean getlocalRootDirectories(){
+
+        try{
+            LocalFileUtil localFileUtil= new LocalFileUtil();
+            List<LocalFile> localrootDirectories= localFileUtil.getRootList();
+            System.out.format("%10s%45s", "Name", "Path"+"\n");
+            for(LocalFile file: localrootDirectories){
+                System.out.format("%10s%45s",file.getFileName(),file.getFilePath()+"\n");
+            }
+            return true;
+        } catch(IOException e){
+            System.out.println("Could not print the local machine root directories");
+            return false;
+        }
+
+
+
+
+    }
+
     // Start the CLI client; parse user input and execute the requested command
     public void start(String[] args) {
 
@@ -230,6 +257,10 @@ public class CLIClient {
             else if (line.hasOption("list")) {
                 String path = line.getOptionValue("list");
                 listRemoteDirectory(serverInfo, path);
+            }
+            else if(line.hasOption("listlocal")){
+
+                getlocalRootDirectories();
             }
             else {
                 System.out.println("No command specified \n");
