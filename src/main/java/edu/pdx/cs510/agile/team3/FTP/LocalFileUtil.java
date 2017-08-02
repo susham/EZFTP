@@ -17,7 +17,7 @@ public class LocalFileUtil {
 
     //returns a list of root directories of the local machine along with its path and whether the file is a directory or not.
     public List<LocalFile> getRootList() throws IOException {
-        List<LocalFile> root_directorylist= new ArrayList();
+        List<LocalFile> root_DirectoryList= new ArrayList();
             File[] rootDirectories = File.listRoots(); //listRoots method lists all the root directories of the local machine.
             if (rootDirectories.length > 0) {
                 for (File root : rootDirectories) {
@@ -28,14 +28,14 @@ public class LocalFileUtil {
                                 LocalFile localFile = new LocalFile(root_directory.getName(),
                                         root_directory.getPath(),
                                         root_directory.isDirectory());
-                                root_directorylist.add(localFile);
+                                root_DirectoryList.add(localFile);
                             }
                         }
                     }
                 }
             }
 
-        return root_directorylist;
+        return root_DirectoryList;
     }
 
     //returns the list of file info, which are present under the path provided.
