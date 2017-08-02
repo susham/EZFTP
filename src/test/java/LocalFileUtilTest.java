@@ -122,7 +122,8 @@ public class LocalFileUtilTest {
                 System.out.println("Renamed Successfully");
             else
                 System.out.println("Rename was not successful");
-            testRenameFile.delete();
+            File testRenamedFile= new File(testRenameDirectory+"/Test3.txt");
+            testRenamedFile.delete();
             testRenameDirectory.delete();
         }
         catch (Exception e)
