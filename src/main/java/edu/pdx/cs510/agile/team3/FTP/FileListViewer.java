@@ -47,9 +47,11 @@ public class FileListViewer extends JFrame implements TreeWillExpandListener {
         panel1 = new JPanel();
         scrollPane1 = new JScrollPane();
         tree1 = new JTree();
+        tree1.setDragEnabled(true);
         panel2 = new JPanel();
         scrollPane2 = new JScrollPane();
         tree2 = new JTree();
+        tree2.setDragEnabled(true);
         button1 = new JButton();
         button2 = new JButton();
 
