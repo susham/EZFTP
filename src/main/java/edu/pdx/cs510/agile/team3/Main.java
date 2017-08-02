@@ -13,8 +13,8 @@ import edu.pdx.cs510.agile.team3.FTP.CLIClient;
 public class Main {
 
     public static void main(String[] args) {
-  /*  FileListViewer fileListViewer= new FileListViewer();
-    fileListViewer.setVisible(true);*/
+   FileListViewer fileListViewer= new FileListViewer();
+    fileListViewer.setVisible(true);
 
         CLIClient cliClient = new CLIClient();
         cliClient.start(args);

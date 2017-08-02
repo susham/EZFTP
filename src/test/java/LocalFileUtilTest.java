@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
+
 /**
  * Created by sushamkumar on 7/28/17.
  */
@@ -200,7 +201,7 @@ public class LocalFileUtilTest {
             for (LocalFile searchedFile:searchResults) {
                 System.out.println(searchedFile.getFileName());
             }
-            test1File2.delete();
+            test1File.delete();
             test1File2.delete();
             test1Directory.delete();
         }
@@ -210,5 +211,7 @@ public class LocalFileUtilTest {
         }
 
     }
+
+
 
 }

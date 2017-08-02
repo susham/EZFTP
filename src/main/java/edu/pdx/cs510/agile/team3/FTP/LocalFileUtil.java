@@ -18,7 +18,7 @@ public class LocalFileUtil {
     //returns a list of root directories of the local machine along with its path and whether the file is a directory or not.
     public List<LocalFile> getRootList() throws IOException {
 
-        List<LocalFile> root_DirectoryList= new ArrayList();
+        List<LocalFile> root_DirectoryList = new ArrayList();
 
         File[] rootDirectories = File.listRoots(); //listRoots method lists all the root directories of the local machine.
         if (rootDirectories.length > 0) {
@@ -26,7 +26,7 @@ public class LocalFileUtil {
                 File[] root_directories = root.listFiles();
                 if (root_directories.length > 0) {
                     for (File root_directory : root_directories) {
-                        if(root_directory.isDirectory()) {
+                        if (root_directory.isDirectory()) {
                             LocalFile localFile = new LocalFile(root_directory.getName(),
                                     root_directory.getPath(),
                                     root_directory.isDirectory());
@@ -49,38 +49,34 @@ public class LocalFileUtil {
             File userfile = new File(filePath);
             if (userfile.exists()) {
                 if (userfile.isDirectory()) {//check if the path provided exists and whether it's a directory or not
+
+                    //if the path provided is a directory, then get the list of all files under the directory
+                    File[] fileList = userfile.listFiles();
+                    if (fileList != null && fileList.length > 0) //check if the directory has any files under it.
                     {
-                        //if the path provided is a directory, then get the list of all files under the directory
-                        File[] fileList = userfile.listFiles();
-                        if (fileList != null && fileList.length > 0) //check if the directory has any files under it.
-                        {
-                            for (File file : fileList) {
-                                LocalFile localFile = new LocalFile(file.getName(),
-                                        file.getPath(),
-                                        file.isDirectory());
-                                fileInfoList.add(localFile);
-                            }
+                        for (File file : fileList) {
+                            LocalFile localFile = new LocalFile(file.getName(),
+                                    file.getPath(),
+                                    file.isDirectory());
+                            fileInfoList.add(localFile);
                         }
                     }
                 }
-                else
-                {
-                    throw new IOException("Path Specified is not a directory");
-                }
             } else {
-                throw new IOException("Path Specified is not valid");
+                throw new IOException("Path Specified is not a directory");
             }
+
+        } else {
+
+            throw new IOException("Path Specified is not valid");
         }
+
         return fileInfoList;
     }
 
 
-
-
-
     // This method takes
-    public boolean renameFileTo (String sourcefilePath, String oldName, String newName) throws IOException
-    {
+    public boolean renameFileTo(String sourcefilePath, String oldName, String newName) throws IOException {
         boolean isFileRenamed = false;
         if (sourcefilePath != null && newName != null && oldName != null) {
             String pathWithOldFileName = sourcefilePath + "/" + oldName;
@@ -96,11 +92,13 @@ public class LocalFileUtil {
             }
         } else
             throw new IOException("Parameters cannot be null");
+
         return isFileRenamed;
     }
 
     //method searches for a file under a directory. if the fileName parameter is "", then returns all the results under the directory
-    public List<LocalFile> SearchFileAtPath (String searchPath, String fileName) throws IOException {
+
+    public List<LocalFile> SearchFileAtPath(String searchPath, String fileName) throws IOException {
 
         List<LocalFile> directoryFileList = new ArrayList();
         if (searchPath != null && fileName != null) {
@@ -120,13 +118,19 @@ public class LocalFileUtil {
                     }
                 }
             } else {
+
                 throw new IOException("Directory does not exist");
+
             }
+
         } else {
             throw new IOException("Parameters cannot be null");
         }
         return directoryFileList;
     }
 
-
 }
+
+
+
+
