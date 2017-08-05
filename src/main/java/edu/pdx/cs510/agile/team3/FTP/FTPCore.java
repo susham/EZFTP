@@ -6,8 +6,7 @@ package edu.pdx.cs510.agile.team3.FTP;
 
 import org.apache.commons.net.ftp.*;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Vector;
 
@@ -162,6 +161,52 @@ public class FTPCore {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    // Retrieves files from remote. All option arguments after -g are treated as remote file paths to be downloaded.
+    // Usage: -g file1 file2 file3 ... savePath
+    // Ex. retrieve the upload test files in the upload directory, and save them to your current working directory:
+    // -g /upload/testUpload.txt /upload/upTest2.txt ./
+    // Returns true if all files were downloaded.  Returns false as soon as a single file failed.
+    public Boolean getFiles(FTPServerInfo serverInfo, String[] list) { //list is the list of args after the -g option
+        FTPClient ftpClient = new FTPClient();
+        try {
+            //Log in
+            ftpClient.connect(serverInfo.host, serverInfo.port);
+            ftpClient.login(serverInfo.username, serverInfo.password);
+
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+            int files = list.length - 1; //number of files to download
+
+            String localPath = list[list.length - 1]; //path to save files to (last arg)
+            String remoteFileName;
+            File remoteFile; //This is just needed to extracting the file name from the path, otherwise not necessary
+            File downloadFile;
+            OutputStream outputStream;
+            for (int i = 0; i < files; ++i) {
+                remoteFileName = list[i];
+                remoteFile = new File(remoteFileName);
+                //Old method: save files to current working directory
+                //Save the file to "./remoteFileName"
+                //downloadFile = new File(System.getProperty("user.dir") + File.separator + remoteFile.getName());
+                //Use this instead:
+                downloadFile = new File(localPath + remoteFile.getName());
+                System.out.println("Retrieving " + downloadFile); //Prints the full path of the downloaded file
+                outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+                boolean success = ftpClient.retrieveFile(remoteFileName, outputStream);
+                if (!success) { //if a file failed to transfer, error out
+                    System.err.println("Retrieval of a file failed.");
+                    return false;
+                }
+                outputStream.close();
+            }
+            return true;
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     private FTPConnection currentConnection;

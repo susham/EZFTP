@@ -48,13 +48,11 @@ public class CLIClient {
                 "connects to server and disconnects immediately");
         options.addOption(pingCommand);
 
-        // Another example -- not implemented yet!!
         Option getCommand = new Option("g",
                 "get",
                 true,
                 "downloads files from server to the specified path");
-        getCommand.setArgs(1);
-        getCommand.setArgName("PATH");
+        getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
 
         // List contents of directory at path
@@ -250,7 +248,16 @@ public class CLIClient {
                 // that's all! attemptToConnect will print the error
             }
             else if (line.hasOption("get")) {
-                System.out.println("ERROR -- GET NOT IMPLEMENTED YET!!");
+                String[] list = line.getOptionValues("get");
+                if (ftpCore.getFiles(serverInfo, list)) {
+                    if (list.length == 2)
+                        System.out.println("File has been downloaded successfully.");
+                    else
+                        System.out.println("Files have been downloaded successfully.");
+                }
+                else { //one or more files failed
+                    //log?
+                }
             }
             else if (line.hasOption("list")) {
                 String path = line.getOptionValue("list");
