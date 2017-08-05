@@ -141,6 +141,14 @@ public class CLIClient {
         deleteFileOption.setRequired(false);
         options.addOption(deleteFileOption);
 
+        Option deleteDirectoryOption = new Option( "dd",
+                "delDir",
+                true,
+                "Delete a directory at the specified path.");
+        deleteDirectoryOption.setArgs(1);
+        deleteDirectoryOption.setRequired(false);
+        options.addOption(deleteDirectoryOption);
+
         configured = true;
     }
 
@@ -250,11 +258,29 @@ public class CLIClient {
             }
             else if (line.hasOption("newDir")) {
                 String path = line.getOptionValue("newDir");
-                ftpCore.createNewDirectory(serverInfo, path);
+                if (ftpCore.createNewDirectory(serverInfo, path)) {
+                    System.out.println("Directory was successfully created.");
+                } else {
+                    System.out.println("Directory creation failed.");
+                }
             }
             else if (line.hasOption("del")) {
                 String path = line.getOptionValue("del");
-                ftpCore.deleteFile(serverInfo, path);
+                if (ftpCore.deleteFile(serverInfo, path)) {
+                    System.out.println("File was successfully deleted.");
+                } else {
+                    System.out.println("File deletion failed.");
+                }
+            }
+            else if (line.hasOption("delDir")) {
+                String path = line.getOptionValue("delDir");
+                ftpCore.deleteDirectory(serverInfo, path);
+                /*if (ftpCore.deleteDirectory(serverInfo, path)) {
+                    System.out.println("Directory was successfully deleted.")
+                } else {
+                    System.out.println("Directory deletion failed.");
+                }
+                */
             }
             else {
                 System.out.println("No command specified \n");

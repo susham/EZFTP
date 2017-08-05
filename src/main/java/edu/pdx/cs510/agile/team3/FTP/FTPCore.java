@@ -150,6 +150,20 @@ public class FTPCore {
         return false;
     }
 
+    public void deleteDirectory(FTPServerInfo serverInfo, String path) {
+        try {
+            connect(serverInfo);
+        } catch (ConnectionFailedException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+        try {
+            FTPUtil.removeDirectory(ftpClient, path, "");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private FTPConnection currentConnection;
     private FTPClient ftpClient;
 }
