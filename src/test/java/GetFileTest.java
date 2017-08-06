@@ -1,12 +1,14 @@
 import edu.pdx.cs510.agile.team3.FTP.*;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import java.io.*;
+import java.nio.file.Files;
 
 /**
  * Created by KTM on 8/5/2017.
  */
-public class GetFileTest { //Don't forget to delete the file from your current directory after the test has run
+public class GetFileTest {
   @Test
   public void retrieveFileFromRemoteAndCheckItExistsOnLocal() {
     FTPCore ftpCore = new FTPCore();
@@ -20,7 +22,10 @@ public class GetFileTest { //Don't forget to delete the file from your current d
     list[0] = fileToGet;
     list[1] = saveDir;
     ftpCore.getFiles(serverInfo, list);
-    Assert.assertTrue(downloadFile.exists()); //check if the file "aFile" exists in your working directory
+    Boolean exists = downloadFile.exists();
+    //Delete test file as we have saved the result in "exists"
+    downloadFile.delete();
+    Assert.assertTrue(exists); //check if the file "aFile" exists in your working directory
   }
 
   @Test
@@ -46,6 +51,10 @@ public class GetFileTest { //Don't forget to delete the file from your current d
     ftpCore.getFiles(serverInfo, list);
     //Check that all three files downloaded correctly
     Boolean verify = downloadFile1.exists() && downloadFile2.exists() && downloadFile3.exists();
+    //Delete the test files as we already have the results
+    downloadFile1.delete();
+    downloadFile2.delete();
+    downloadFile3.delete();
     Assert.assertTrue(verify);
   }
 }
