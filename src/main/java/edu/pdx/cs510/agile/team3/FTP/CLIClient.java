@@ -55,6 +55,13 @@ public class CLIClient {
         getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
 
+        Option putCommand = new Option("up",
+                "upload",
+                true,
+                "uploads files from local to remote to the specified path");
+        putCommand.setArgs(Option.UNLIMITED_VALUES);
+        options.addOption(putCommand);
+
         // List contents of directory at path
         Option listCommand = new Option("ls",
                 "list",
@@ -257,6 +264,18 @@ public class CLIClient {
                 }
                 else { //one or more files failed
                     //log?
+                }
+            }
+            else if (line.hasOption("upload")) {
+                String[] list = line.getOptionValues("upload");
+                if (ftpCore.uploadFiles(serverInfo, list)) {
+                    if (list.length == 2)
+                        System.out.println("File has been uploaded successfully.");
+                    else
+                        System.out.println("Files have been uploaded successfully.");
+                }
+                else {
+                    //log failed transfers?
                 }
             }
             else if (line.hasOption("list")) {

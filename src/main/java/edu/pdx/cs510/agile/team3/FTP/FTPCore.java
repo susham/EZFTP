@@ -209,6 +209,57 @@ public class FTPCore {
         return false;
     }
 
+    // Uploads one or more files to the specified path.
+    // Usage: -up file1 file2 file3 ... remotePath
+    // Ex. Upload file1.txt from current directory to remote root: -up file1 /
+    // Ex. Upload /upload/file1.txt to /upload: -up /upload/file1 /upload/
+    // Note that the remote path must end in a forward slash, it must be provided
+    // Returns true if all files were uploaded successfully. Returns false as soon as a single file failed
+    public Boolean uploadFiles (FTPServerInfo serverInfo, String[] list) {
+        FTPClient ftpClient = new FTPClient();
+        try {
+            //Log in
+            ftpClient.connect(serverInfo.host, serverInfo.port);
+            ftpClient.login(serverInfo.username, serverInfo.password);
+
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+            int files = list.length - 1; //number of files to download
+            File localFile = null; //the file to be uploaded
+            String remotePath = list[list.length - 1]; //the path for the uploaded file(s) on the server (last arg)
+            InputStream inputStream = null;
+
+            for (int i = 0; i < files; ++i) {
+                localFile = new File(list[i]);
+                inputStream = new FileInputStream(localFile);
+
+                System.out.println("Start uploading file");
+                OutputStream outputStream = ftpClient.storeFileStream(remotePath + localFile.getName());
+                byte[] bytesIn = new byte[4096];
+                int read = 0;
+
+                while ((read = inputStream.read(bytesIn)) != -1) {
+                    outputStream.write(bytesIn, 0, read);
+                }
+                inputStream.close();
+                outputStream.close();
+
+                boolean completed = ftpClient.completePendingCommand();
+                if (completed) {
+                    System.out.println("File, " + localFile.getName() + ", uploaded successfully.");
+                } else {
+                    System.out.println("File, " + localFile.getName() + "failed to upload.");
+                    return false;
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+    }
+
     private FTPConnection currentConnection;
     private FTPClient ftpClient;
 }
