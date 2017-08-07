@@ -48,14 +48,19 @@ public class CLIClient {
                 "connects to server and disconnects immediately");
         options.addOption(pingCommand);
 
-        // Another example -- not implemented yet!!
         Option getCommand = new Option("g",
                 "get",
                 true,
                 "downloads files from server to the specified path");
-        getCommand.setArgs(1);
-        getCommand.setArgName("PATH");
+        getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
+
+        Option putCommand = new Option("up",
+                "upload",
+                true,
+                "uploads files from local to remote to the specified path");
+        putCommand.setArgs(Option.UNLIMITED_VALUES);
+        options.addOption(putCommand);
 
         // List contents of directory at path
         Option listCommand = new Option("ls",
@@ -121,6 +126,33 @@ public class CLIClient {
                 "list all the root directories of the local machine");
         options.addOption(rootDirectoriesoption);
 
+        //Creates a new directory from the path given. Takes in one argument which is the path.
+        Option newDirectoryOption = new Option("nd",
+                "newDir",
+                true,
+                "create a new directory at the specified path");
+        newDirectoryOption.setArgs(1);
+        newDirectoryOption.setArgName("STRING");
+        newDirectoryOption.setRequired(false);
+        options.addOption(newDirectoryOption);
+
+        //Deletes a file at the path given. Takes in one argument which is the path.
+        Option deleteFileOption = new Option("d",
+                "del",
+                true,
+                "Delete a file at the specified path.");
+        deleteFileOption.setArgs(1);
+        deleteFileOption.setArgName("STRING");
+        deleteFileOption.setRequired(false);
+        options.addOption(deleteFileOption);
+
+        Option deleteDirectoryOption = new Option( "dd",
+                "delDir",
+                true,
+                "Delete a directory at the specified path.");
+        deleteDirectoryOption.setArgs(1);
+        deleteDirectoryOption.setRequired(false);
+        options.addOption(deleteDirectoryOption);
 
         configured = true;
     }
@@ -223,11 +255,58 @@ public class CLIClient {
                 // that's all! attemptToConnect will print the error
             }
             else if (line.hasOption("get")) {
-                System.out.println("ERROR -- GET NOT IMPLEMENTED YET!!");
+                String[] list = line.getOptionValues("get");
+                if (ftpCore.getFiles(serverInfo, list)) {
+                    if (list.length == 2)
+                        System.out.println("File has been downloaded successfully.");
+                    else
+                        System.out.println("Files have been downloaded successfully.");
+                }
+                else { //one or more files failed
+                    //log?
+                }
+            }
+            else if (line.hasOption("upload")) {
+                String[] list = line.getOptionValues("upload");
+                if (ftpCore.uploadFiles(serverInfo, list)) {
+                    if (list.length == 2)
+                        System.out.println("File has been uploaded successfully.");
+                    else
+                        System.out.println("Files have been uploaded successfully.");
+                }
+                else {
+                    //log failed transfers?
+                }
             }
             else if (line.hasOption("list")) {
                 String path = line.getOptionValue("list");
                 listRemoteDirectory(serverInfo, path);
+            }
+            else if (line.hasOption("newDir")) {
+                String path = line.getOptionValue("newDir");
+                if (ftpCore.createNewDirectory(serverInfo, path)) {
+                    System.out.println("Directory was successfully created.");
+                } else {
+                    System.out.println("Directory creation failed.");
+                }
+            }
+            else if (line.hasOption("del")) {
+                String path = line.getOptionValue("del");
+                if (ftpCore.deleteFile(serverInfo, path)) {
+                    System.out.println("File was successfully deleted.");
+                } else {
+                    System.out.println("File deletion failed.");
+                }
+            }
+            else if (line.hasOption("delDir")) {
+                String path = line.getOptionValue("delDir");
+                ftpCore.deleteDirectory(serverInfo, path);
+                /*if (ftpCore.deleteDirectory(serverInfo, path)) {
+                    System.out.println("Directory was successfully deleted.")
+                } else {
+                    System.out.println("Directory deletion failed.");
+                }
+                */
             }
             else {
                 System.out.println("No command specified \n");
@@ -246,6 +325,11 @@ public class CLIClient {
     public void printUsage() {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("ftpa", options);
+    }
+
+    public static void main(String[] args) {
+        CLIClient cli = new CLIClient();
+        cli.start(args);
     }
 
     private FTPCore ftpCore;
