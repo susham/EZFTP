@@ -154,6 +154,22 @@ public class CLIClient {
         deleteDirectoryOption.setRequired(false);
         options.addOption(deleteDirectoryOption);
 
+
+
+
+        //Renames a file at the path given. Takes in two arguments.
+        //First argument is the from path, second is the to path.
+        Option renameOption = new Option("rn",
+                "rename",
+                true,
+                "rename a file from first specified path to second specified path");
+        renameOption.setArgs(2);
+        renameOption.setArgName("STRING");
+        renameOption.setRequired(false);
+        options.addOption(renameOption);
+
+
+
         configured = true;
     }
 
@@ -307,6 +323,14 @@ public class CLIClient {
                     System.out.println("Directory deletion failed.");
                 }
                 */
+            }
+            else if (line.hasOption("rename")) {
+                String[] list = line.getOptionValues("rename");
+                if (ftpCore.renameFile(serverInfo, list)) {
+                    System.out.println("File was successfully renamed.");
+                } else {
+                    System.out.println("File renaming failed.");
+                }
             }
             else {
                 System.out.println("No command specified \n");

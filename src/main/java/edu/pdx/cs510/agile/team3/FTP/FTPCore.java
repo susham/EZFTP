@@ -163,6 +163,35 @@ public class FTPCore {
         }
     }
 
+    //Renames file at first path provided to second path provided.
+    //The path can be relative or absolute.
+    //Returns true if the file was renamed, otherwise returns false.
+    // Usage: -rn file1 file2
+    // To rename file "ex.txt" to "ex2.txt" in the root directory
+    // -rn /ex.txt /ex2.txt
+    // To delete file "ex.txt" to "ex2.txt" at /uploads
+    // -rn /uploads/ex.txt /uploads/ex2.txt
+    // *note that the "uploads" directory must exist or this will fail and return false
+    // *also, new name can be in a different (existing) directory
+    public Boolean renameFile(FTPServerInfo serverInfo, String[] list) {
+        try {
+            connect(serverInfo);
+        } catch (ConnectionFailedException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+        try {
+            return ftpClient.rename(list[0], list[1]);
+        } catch (IOException ex) {
+            System.out.println(ex);
+            System.exit(1);
+        }
+
+        //shouldn't ever reach here, just for making compiler happy.
+        System.out.println("File renaming encountered an unexpected error.");
+        return false;
+    }
+
     // Retrieves files from remote. All option arguments after -g are treated as remote file paths to be downloaded.
     // Usage: -g file1 file2 file3 ... savePath
     // Ex. retrieve the upload test files in the upload directory, and save them to your current working directory:
