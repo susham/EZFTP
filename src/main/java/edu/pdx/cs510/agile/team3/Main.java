@@ -13,11 +13,24 @@ import edu.pdx.cs510.agile.team3.FTP.CLIClient;
 public class Main {
 
     public static void main(String[] args) {
-   FileListViewer fileListViewer= new FileListViewer();
-    fileListViewer.setVisible(true);
 
-        CLIClient cliClient = new CLIClient();
-        cliClient.start(args);
+
+         FTPCore ftpCore= new FTPCore();
+
+        try {
+            FTPConnection connection=ftpCore.connect(new FTPServerInfo("test","138.68.11.232","agile","imanagiledude",21));
+            FTPServerInfo serverInfo=connection.getServerInfo();
+            FileListViewer fileListViewer= new FileListViewer(ftpCore);
+            fileListViewer.setVisible(true);
+
+        } catch (ConnectionFailedException e) {
+            e.printStackTrace();
+        }
+
+
+
+//         CLIClient cliClient = new CLIClient();
+//         cliClient.start(args);
 
 
 
