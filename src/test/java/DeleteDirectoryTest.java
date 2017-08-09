@@ -40,9 +40,9 @@ public class DeleteDirectoryTest {
 
       //Now, delete the directory and check if it still exists
       ftpCore.deleteDirectory(serverInfo, "/NewDir");
-      ftpClient.completePendingCommand();
+      // ftpClient.completePendingCommand();
       ftpClient.changeWorkingDirectory("/NewDir");
-      ftpClient.completePendingCommand();
+      // ftpClient.completePendingCommand();
       returnCode = ftpClient.getReplyCode();
       if (returnCode != 550)
         Assert.fail();
