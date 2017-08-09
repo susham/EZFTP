@@ -19,6 +19,7 @@ dependencies {
     compile 'commons-cli:commons-cli:1.4'
     compile 'com.jgoodies:jgoodies-common:1.8.1'
     compile 'jgoodies:forms:1.0.5'
+    compile 'org.xerial:sqlite-jdbc:3.19.3'
 
     testCompile 'junit:junit:4.12'
 }
