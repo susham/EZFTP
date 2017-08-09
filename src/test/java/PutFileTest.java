@@ -90,6 +90,7 @@ public class PutFileTest {
           Assert.fail();
         }
         inputStream = ftpClient.retrieveFileStream("/upload/" + name);
+        ftpClient.completePendingCommand();
         returnCode = ftpClient.getReplyCode();
         if (returnCode == 550) // return code 550: file/directory is unavailable
           Assert.fail();
