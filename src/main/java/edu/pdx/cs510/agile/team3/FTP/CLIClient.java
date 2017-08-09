@@ -183,7 +183,12 @@ public class CLIClient {
         int port = 21;
         if (line.hasOption("port")) {
             String portstring = line.getOptionValue("port");
-            port = Integer.parseInt(portstring);
+            try {
+                port = Integer.parseInt(portstring);
+            }
+            catch (java.lang.NumberFormatException e) {
+                port = 21;
+            }
         }
 
         FTPServerInfo serverInfo = new FTPServerInfo(
