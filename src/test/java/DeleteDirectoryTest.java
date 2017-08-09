@@ -9,13 +9,6 @@ import java.io.IOException;
 /**
  * Created by KTM on 8/5/2017.
  */
-/*The Apache Commons FTPClient seems to have an issue with hanging indefinitely when attempting to do several
-  consecutive ftp commands.  I have looked into this and tried some suggestions on StackOverflow
-  (https://stackoverflow.com/questions/9706968/apache-commons-ftpclient-hanging) to no avail.
-  Thus, if you run this test but it never seems to finish, you'll just have to run the test manually by running
-  the CLIClient with the args: -h 138.68.11.232 -un agile -pw imanagiledude -dd "/NewDir"
-  and verifying with FileZilla that NewDir was actually deleted.
- */
 public class DeleteDirectoryTest {
   @Test
   public void deleteEmptyRemoteDirectory() {
