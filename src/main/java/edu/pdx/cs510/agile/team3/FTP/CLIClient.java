@@ -128,14 +128,14 @@ public class CLIClient {
         rootDirectoriesoption.setRequired(false);
         options.addOption(rootDirectoriesoption);
 
-<<<<<<< HEAD
+
         Option renameLocalFileOption= new Option("rlf","RenameLocal",true,"Rename Local File");
         renameLocalFileOption.setArgs(2);
         renameLocalFileOption.setArgName("STRING");
         renameLocalFileOption.setRequired(false);
         options.addOption(renameLocalFileOption);
 
-=======
+
         //Creates a new directory from the path given. Takes in one argument which is the path.
         Option newDirectoryOption = new Option("nd",
                 "newDir",
@@ -163,7 +163,7 @@ public class CLIClient {
         deleteDirectoryOption.setArgs(1);
         deleteDirectoryOption.setRequired(false);
         options.addOption(deleteDirectoryOption);
->>>>>>> master
+
 
         configured = true;
     }
@@ -314,11 +314,12 @@ public class CLIClient {
                 String path = line.getOptionValue("list");
                 listRemoteDirectory(serverInfo, path);
             }
-<<<<<<< HEAD
+
             else if(line.hasOption("listlocal")){
 
                 getlocalRootDirectories();
-=======
+            }
+
             else if (line.hasOption("newDir")) {
                 String path = line.getOptionValue("newDir");
                 if (ftpCore.createNewDirectory(serverInfo, path)) {
@@ -344,7 +345,7 @@ public class CLIClient {
                     System.out.println("Directory deletion failed.");
                 }
                 */
->>>>>>> master
+
             }
             else {
                 System.out.println("No command specified \n");
