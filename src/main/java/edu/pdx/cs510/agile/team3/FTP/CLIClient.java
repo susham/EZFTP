@@ -165,6 +165,19 @@ public class CLIClient {
         options.addOption(deleteDirectoryOption);
 
 
+        //Renames a file at the path given. Takes in two arguments.
+        //First argument is the from path, second is the to path.
+        Option renameOption = new Option("rn",
+                "rename",
+                true,
+                "rename a file from first specified path to second specified path");
+        renameOption.setArgs(2);
+        renameOption.setArgName("STRING");
+        renameOption.setRequired(false);
+        options.addOption(renameOption);
+
+
+
         configured = true;
     }
 
@@ -178,7 +191,12 @@ public class CLIClient {
         int port = 21;
         if (line.hasOption("port")) {
             String portstring = line.getOptionValue("port");
-            port = Integer.parseInt(portstring);
+            try {
+                port = Integer.parseInt(portstring);
+            }
+            catch (java.lang.NumberFormatException e) {
+                port = 21;
+            }
         }
 
         FTPServerInfo serverInfo = new FTPServerInfo(
@@ -346,6 +364,14 @@ public class CLIClient {
                 }
                 */
 
+            }
+            else if (line.hasOption("rename")) {
+                String[] list = line.getOptionValues("rename");
+                if (ftpCore.renameFile(serverInfo, list)) {
+                    System.out.println("File was successfully renamed.");
+                } else {
+                    System.out.println("File renaming failed.");
+                }
             }
             else {
                 System.out.println("No command specified \n");
