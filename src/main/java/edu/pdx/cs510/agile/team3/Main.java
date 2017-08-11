@@ -1,28 +1,33 @@
 package edu.pdx.cs510.agile.team3;
 
 
-import edu.pdx.cs510.agile.team3.FTP.CLIClient;
+
+import edu.pdx.cs510.agile.team3.FTP.*;
+
 
 public class Main {
 
     public static void main(String[] args) {
 
 
-        //ServerConnect serverConnect= new ServerConnect();
-        //serverConnect.setVisible(true);
+         FTPCore ftpCore= new FTPCore();
 
-/*
-     LocalFileUtil localFileUtil = new LocalFileUtil();
+        try {
+           FTPConnection connection=ftpCore.connect(new FTPServerInfo("test","138.68.11.232","agile","imanagiledude",21));
+          FTPServerInfo serverInfo=connection.getServerInfo();
+            EZFTPGUIClient ezftpguiClient= new EZFTPGUIClient();
+            ezftpguiClient.setVisible(true);
 
-     List<LocalFile> rootDirectoriesInfo = localFileUtil.getRootList();
-        for (LocalFile rootDirectoryInfo:rootDirectoriesInfo){
-            System.out.println("Root Directory Name:"+rootDirectoryInfo.getFileName());
-            System.out.println("Root Directory Path:"+rootDirectoryInfo.getFilePath());
-            System.out.println("Is a Directory:"+rootDirectoryInfo.isDirectory());
+        } catch (ConnectionFailedException e) {
+            e.printStackTrace();
         }
-*/
 
-        CLIClient cliClient = new CLIClient();
-        cliClient.start(args);
+
+
+//         CLIClient cliClient = new CLIClient();
+//         cliClient.start(args);
+
+
+
     }
 }

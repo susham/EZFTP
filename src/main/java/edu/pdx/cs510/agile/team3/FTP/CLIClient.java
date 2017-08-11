@@ -121,10 +121,20 @@ public class CLIClient {
         nameOption.setRequired(false);
         options.addOption(nameOption);
 
-        Option rootDirectoriesoption= new Option("l",
+        Option rootDirectoriesoption= new Option("ll",
+                "listlocal",
                 false,
                 "list all the root directories of the local machine");
+        rootDirectoriesoption.setRequired(false);
         options.addOption(rootDirectoriesoption);
+
+
+        Option renameLocalFileOption= new Option("rlf","RenameLocal",true,"Rename Local File");
+        renameLocalFileOption.setArgs(2);
+        renameLocalFileOption.setArgName("STRING");
+        renameLocalFileOption.setRequired(false);
+        options.addOption(renameLocalFileOption);
+
 
         //Creates a new directory from the path given. Takes in one argument which is the path.
         Option newDirectoryOption = new Option("nd",
@@ -153,8 +163,6 @@ public class CLIClient {
         deleteDirectoryOption.setArgs(1);
         deleteDirectoryOption.setRequired(false);
         options.addOption(deleteDirectoryOption);
-
-
 
 
         //Renames a file at the path given. Takes in two arguments.
@@ -246,6 +254,27 @@ public class CLIClient {
         }
     }
 
+
+    private boolean getlocalRootDirectories(){
+
+        try{
+            LocalFileUtil localFileUtil= new LocalFileUtil();
+            List<LocalFile> localrootDirectories= localFileUtil.getRootList();
+            System.out.format("%10s%45s", "Name", "Path"+"\n");
+            for(LocalFile file: localrootDirectories){
+                System.out.format("%10s%45s",file.getFileName(),file.getFilePath()+"\n");
+            }
+            return true;
+        } catch(IOException e){
+            System.out.println("Could not print the local machine root directories");
+            return false;
+        }
+
+
+
+
+    }
+
     // Start the CLI client; parse user input and execute the requested command
     public void start(String[] args) {
 
@@ -303,6 +332,12 @@ public class CLIClient {
                 String path = line.getOptionValue("list");
                 listRemoteDirectory(serverInfo, path);
             }
+
+            else if(line.hasOption("listlocal")){
+
+                getlocalRootDirectories();
+            }
+
             else if (line.hasOption("newDir")) {
                 String path = line.getOptionValue("newDir");
                 if (ftpCore.createNewDirectory(serverInfo, path)) {
@@ -328,6 +363,7 @@ public class CLIClient {
                     System.out.println("Directory deletion failed.");
                 }
                 */
+
             }
             else if (line.hasOption("rename")) {
                 String[] list = line.getOptionValues("rename");
