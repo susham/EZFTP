@@ -43,13 +43,6 @@ public class PutFileTest {
     }
   }
 
-  /*The Apache Commons FTPClient seems to have an issue with hanging indefinitely when attempting to do several
-  consecutive ftp commands.  I have looked into this and tried some suggestions on StackOverflow
-  (https://stackoverflow.com/questions/9706968/apache-commons-ftpclient-hanging)to no avail.
-  Thus, if you run this test but it never seems to finish, you'll just have to run the test manually by running
-  the CLIClient with the args: -h 138.68.11.232 -un agile -pw imanagiledude -up ./up1.txt ./up2.txt ./up3.txt /upload/
-  and verifying with FileZilla that the files were uploaded successfully.
-  */
   @Test
   public void uploadSeveralFilesAndCheckExistenceOnRemote() {
     FTPCore ftpCore = new FTPCore();
@@ -90,6 +83,7 @@ public class PutFileTest {
           Assert.fail();
         }
         inputStream = ftpClient.retrieveFileStream("/upload/" + name);
+        ftpClient.completePendingCommand();
         returnCode = ftpClient.getReplyCode();
         if (returnCode == 550) // return code 550: file/directory is unavailable
           Assert.fail();
