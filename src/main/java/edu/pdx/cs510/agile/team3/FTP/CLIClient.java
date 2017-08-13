@@ -42,6 +42,13 @@ public class CLIClient {
         // generally corresponding to one of our features.
         // The user might specify more than one command, but only one will
         // actually run.
+
+        Option guiCommand = new Option("gui",
+                "graphical",
+                false,
+                "run in GUI mode");
+        options.addOption(guiCommand);
+
         Option pingCommand = new Option("p",
                 "ping",
                 false,
@@ -66,7 +73,7 @@ public class CLIClient {
         Option listCommand = new Option("ls",
                 "list",
                 true,
-                "print directory contents at path");
+                "print directory contents at remote path");
         listCommand.setArgs(1);
         listCommand.setArgName("PATH");
         options.addOption(listCommand);
@@ -77,7 +84,7 @@ public class CLIClient {
         Option hostOption = new Option("h",
                 "host",
                 true,
-                "ftp server host");
+                "FTP server hostname. This is a required option.");
         hostOption.setArgs(1);
         hostOption.setArgName("HOST");
         hostOption.setRequired(true);
@@ -383,7 +390,9 @@ public class CLIClient {
             printUsage();
         }
 
-        ftpCore.disconnect();
+        if (ftpCore != null) {
+            ftpCore.disconnect();
+        }
     }
 
     // print the usage statement
