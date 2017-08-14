@@ -309,24 +309,26 @@ public class CLIClient {
             }
             else if (line.hasOption("get")) {
                 String[] list = line.getOptionValues("get");
-                attemptToConnect(serverInfo);
-                if (ftpCore.getFiles(serverInfo, list)) {
-                    System.out.println("All files downloaded successfully.");
-                }
-                else {
-                    System.out.println("Warning -- at least one file download failed.");
+                if (attemptToConnect(serverInfo)) {
+                    if (ftpCore.getFiles(serverInfo, list)) {
+                        System.out.println("All files downloaded successfully.");
+                    } else {
+                        System.out.println("Warning -- at least one file download failed.");
+                    }
+                } else {
+                    System.out.println("Download failed, could not connected to FTP server.");
                 }
             }
             else if (line.hasOption("upload")) {
                 String[] list = line.getOptionValues("upload");
-                if (ftpCore.uploadFiles(serverInfo, list)) {
-                    if (list.length == 2)
-                        System.out.println("File has been uploaded successfully.");
-                    else
-                        System.out.println("Files have been uploaded successfully.");
-                }
-                else {
-                    //log failed transfers?
+                if (attemptToConnect(serverInfo)) {
+                    if (ftpCore.uploadFiles(serverInfo, list)) {
+                        System.out.println("All files uploaded successfully.");
+                    } else {
+                        System.out.println("Warning -- at least one file upload failed.");
+                    }
+                } else {
+                    System.out.println("Upload failed, could not connected to FTP server.");
                 }
             }
             else if (line.hasOption("list")) {

@@ -316,49 +316,95 @@ public class FTPCore {
     // Note that the remote path must end in a forward slash, it must be provided
     // Returns true if all files were uploaded successfully. Returns false as soon as a single file failed
     public Boolean uploadFiles (FTPServerInfo serverInfo, String[] list) {
-        FTPClient ftpClient = new FTPClient();
-        try {
-            //Log in
-            ftpClient.connect(serverInfo.host, serverInfo.port);
-            ftpClient.login(serverInfo.username, serverInfo.password);
 
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        System.out.println("");
 
-            int files = list.length - 1; //number of files to download
-            File localFile = null; //the file to be uploaded
-            String remotePath = list[list.length - 1]; //the path for the uploaded file(s) on the server (last arg)
-            InputStream inputStream = null;
-
-            for (int i = 0; i < files; ++i) {
-                localFile = new File(list[i]);
-                inputStream = new FileInputStream(localFile);
-
-                System.out.println("Start uploading file");
-                OutputStream outputStream = ftpClient.storeFileStream(remotePath + localFile.getName());
-                byte[] bytesIn = new byte[4096];
-                int read = 0;
-
-                while ((read = inputStream.read(bytesIn)) != -1) {
-                    outputStream.write(bytesIn, 0, read);
-                }
-                inputStream.close();
-                outputStream.close();
-
-                boolean completed = ftpClient.completePendingCommand();
-                if (completed) {
-                    System.out.println("File, " + localFile.getName() + ", uploaded successfully.");
-                } else {
-                    System.out.println("File, " + localFile.getName() + "failed to upload.");
-                    return false;
-                }
-            }
-        } catch (IOException ex) {
-            System.out.println(ex);
+        if (!ftpClient.isConnected()) {
+            System.out.println("Cannot upload files, ftp client is not connected");
             return false;
         }
-        return true;
+
+        ftpClient.enterLocalPassiveMode();
+        try {
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            System.out.println("Unexpected FTPClient error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        int numFiles = list.length - 1;
+        String remoteDirectoryPath = list[list.length - 1];
+
+        // target path must be a directory
+        if (!isRemotePathADirectory(remoteDirectoryPath)) {
+            System.out.println("Cannot upload files to remote path: " + remoteDirectoryPath + " -- remote path must be a directory");
+            return false;
+        }
+
+        boolean success = true;
+
+        for (int i = 0; i < numFiles; ++i) {
+
+
+            File localFile = new File(list[i]);
+
+            String localPath = list[i];
+            String remotePath = remoteDirectoryPath + "/" + localFile.getName();
+
+            success &= uploadFile(remotePath, localPath);
+
+            System.out.println("");
+        }
+        return success;
     }
+
+
+    // Uploads a single file from localPath to remotePath. ftpClient must be connected, or
+    // this method will fail.
+    private boolean uploadFile(String remotePath, String localPath) {
+
+        System.out.println("Uploading file " + localPath + " to remote path: " + remotePath);
+
+        File localFile = new File(localPath);
+
+        if (!localFile.exists()) {
+            System.out.println("Cannot upload file " + localPath + " -- file does not exist");
+            return false;
+        }
+
+        if (localFile.isDirectory()) {
+            System.out.println("Cannot upload directory " + localPath + " -- uploading directories is not supported");
+            return false;
+        }
+
+        try {
+
+            OutputStream outputStream = ftpClient.storeFileStream(remotePath);
+            InputStream inputStream = new FileInputStream(localFile);
+
+            byte[] bytesIn = new byte[4096];
+            int read = 0;
+
+            while ((read = inputStream.read(bytesIn)) != -1) {
+                outputStream.write(bytesIn, 0, read);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            boolean completed = ftpClient.completePendingCommand();
+
+            return completed;
+
+        } catch (Exception e) {
+            System.out.println("Could not upload file " + localPath);
+            System.out.println("Unexpected exception: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 
     // Returns true if the remote path is a directory, otherwise returns false.
     //
