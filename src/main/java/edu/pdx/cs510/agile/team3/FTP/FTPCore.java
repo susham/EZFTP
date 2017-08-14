@@ -203,11 +203,14 @@ public class FTPCore {
     //
     // The ftpClient must be connected before calling this method.
     public Boolean getFiles(FTPServerInfo serverInfo, String[] list) {
-
         if (!ftpClient.isConnected())
         {
-            System.out.println("Cannot download files - FTP client is not connected!");
-            return false;
+            try {
+                connect(serverInfo);
+            } catch (ConnectionFailedException e) {
+                System.out.println("Could not connected to FTP server");
+                return false;
+            }
         }
 
         int numFiles = list.length - 1;
@@ -320,8 +323,12 @@ public class FTPCore {
         System.out.println("");
 
         if (!ftpClient.isConnected()) {
-            System.out.println("Cannot upload files, ftp client is not connected");
-            return false;
+            try {
+                connect(serverInfo);
+            } catch (ConnectionFailedException e) {
+                System.out.println("Could not connect to FTP server");
+                return false;
+            }
         }
 
         ftpClient.enterLocalPassiveMode();
