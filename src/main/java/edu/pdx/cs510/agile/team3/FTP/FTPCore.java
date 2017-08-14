@@ -335,6 +335,9 @@ public class FTPCore {
         int numFiles = list.length - 1;
         String remoteDirectoryPath = list[list.length - 1];
 
+        // Strip trailing /
+        remoteDirectoryPath = remoteDirectoryPath.replaceAll("/$", "");
+
         // target path must be a directory
         if (!isRemotePathADirectory(remoteDirectoryPath)) {
             System.out.println("Cannot upload files to remote path: " + remoteDirectoryPath + " -- remote path must be a directory");

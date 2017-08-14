@@ -1,3 +1,4 @@
+import edu.pdx.cs510.agile.team3.FTP.ConnectionFailedException;
 import edu.pdx.cs510.agile.team3.FTP.FTPCore;
 import edu.pdx.cs510.agile.team3.FTP.FTPServerInfo;
 import org.apache.commons.net.ftp.FTPClient;
@@ -19,6 +20,7 @@ public class DeleteRemoteFileTest {
     FTPServerInfo serverInfo = TestUtil.getTestServerInfo();
     //Log in
     try {
+      ftpCore.connect(serverInfo);
       ftpClient.connect(serverInfo.host, serverInfo.port);
       ftpClient.login(serverInfo.username, serverInfo.password);
 
@@ -48,6 +50,9 @@ public class DeleteRemoteFileTest {
       upTest.delete();
     } catch (IOException ex) {
       System.out.println(ex);
+      Assert.fail();
+    } catch (ConnectionFailedException e) {
+      e.printStackTrace();
       Assert.fail();
     }
   }
