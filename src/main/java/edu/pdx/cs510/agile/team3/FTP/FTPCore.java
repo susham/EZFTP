@@ -133,22 +133,22 @@ public class FTPCore {
     // -d /uploads/ex.txt
     // *note that the "uploads" directory must exist or this will fail and return false
     public Boolean deleteFile(FTPServerInfo serverInfo, String path) {
-        try {
-            connect(serverInfo);
-        } catch (ConnectionFailedException ex) {
-            System.out.println(ex);
-            System.exit(1);
+        if (!isConnected()) {
+            try {
+                connect(serverInfo);
+            } catch (ConnectionFailedException ex) {
+                System.out.println("Could not connect to ftp server -- " + ex.getMessage());
+                return false;
+            }
         }
+
         try {
             return ftpClient.deleteFile(path);
         } catch (IOException ex) {
-            System.out.println(ex);
-            System.exit(1);
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace());
+            return false;
         }
-
-        //shouldn't ever reach here, just for making compiler happy.
-        System.out.println("File deletion encountered an unexpected error.");
-        return false;
     }
 
     public void deleteDirectory(FTPServerInfo serverInfo, String path) {
