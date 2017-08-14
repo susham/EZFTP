@@ -106,22 +106,23 @@ public class FTPCore {
     // -nd /uploads/newDirectory
     // *note that the "uploads" directory must exist or this will fail and return false
     public Boolean createNewDirectory(FTPServerInfo serverInfo, String path) {
-        try {
-            connect(serverInfo);
-        } catch (ConnectionFailedException ex) {
-            System.out.println(ex);
-            System.exit(1);
+
+        if (!isConnected()) {
+            try {
+                connect(serverInfo);
+            } catch (ConnectionFailedException ex) {
+                System.out.println("Could not connect to ftp server -- " + ex.getMessage());
+                return false;
+            }
         }
+
         try {
             return ftpClient.makeDirectory(path);
         } catch (IOException ex) {
             System.out.println(ex);
-            System.exit(1);
+            System.out.println(ex.getStackTrace());
+            return false;
         }
-
-        //shouldn't ever reach here, just for making compiler happy.
-        System.out.println("Directory creation encountered an unexpected error.");
-        return false;
     }
 
     //Deletes file at the path provided.  The path can be relative or absolute.
