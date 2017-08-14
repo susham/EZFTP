@@ -58,14 +58,14 @@ public class CLIClient {
         Option getCommand = new Option("g",
                 "get",
                 true,
-                "downloads files from server to the specified path");
+                "downloads remote files(s) to the specified local path. The last argument is the local path, all preceeding arguments are remote files.");
         getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
 
         Option putCommand = new Option("up",
                 "upload",
                 true,
-                "uploads files from local to remote to the specified path");
+                "uploads local file(s) to the specified remote path. The last argument is the remote path, all preceeding arguments are local paths.");
         putCommand.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(putCommand);
 
@@ -276,10 +276,6 @@ public class CLIClient {
             System.out.println("Could not print the local machine root directories");
             return false;
         }
-
-
-
-
     }
 
     // Start the CLI client; parse user input and execute the requested command
@@ -313,14 +309,12 @@ public class CLIClient {
             }
             else if (line.hasOption("get")) {
                 String[] list = line.getOptionValues("get");
+                attemptToConnect(serverInfo);
                 if (ftpCore.getFiles(serverInfo, list)) {
-                    if (list.length == 2)
-                        System.out.println("File has been downloaded successfully.");
-                    else
-                        System.out.println("Files have been downloaded successfully.");
+                    System.out.println("All files downloaded successfully.");
                 }
-                else { //one or more files failed
-                    //log?
+                else {
+                    System.out.println("Warning -- at least one file download failed.");
                 }
             }
             else if (line.hasOption("upload")) {

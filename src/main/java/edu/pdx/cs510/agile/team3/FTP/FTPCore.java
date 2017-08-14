@@ -7,6 +7,7 @@ package edu.pdx.cs510.agile.team3.FTP;
 import org.apache.commons.net.ftp.*;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Vector;
 
@@ -196,46 +197,116 @@ public class FTPCore {
     // Usage: -g file1 file2 file3 ... savePath
     // Ex. retrieve the upload test files in the upload directory, and save them to your current working directory:
     // -g /upload/testUpload.txt /upload/upTest2.txt ./
-    // Returns true if all files were downloaded.  Returns false as soon as a single file failed.
-    public Boolean getFiles(FTPServerInfo serverInfo, String[] list) { //list is the list of args after the -g option
-        FTPClient ftpClient = new FTPClient();
-        try {
-            //Log in
-            ftpClient.connect(serverInfo.host, serverInfo.port);
-            ftpClient.login(serverInfo.username, serverInfo.password);
+    //
+    // Returns true if all files were downloaded.  Returns false if any transfers failed. If an unexpected error is encountered,
+    // subsequent downloads will be cancelled.
+    //
+    // The ftpClient must be connected before calling this method.
+    public Boolean getFiles(FTPServerInfo serverInfo, String[] list) {
 
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
-            int files = list.length - 1; //number of files to download
-
-            String localPath = list[list.length - 1]; //path to save files to (last arg)
-            String remoteFileName;
-            File remoteFile; //This is just needed to extracting the file name from the path, otherwise not necessary
-            File downloadFile;
-            OutputStream outputStream;
-            for (int i = 0; i < files; ++i) {
-                remoteFileName = list[i];
-                remoteFile = new File(remoteFileName);
-                //Old method: save files to current working directory
-                //Save the file to "./remoteFileName"
-                //downloadFile = new File(System.getProperty("user.dir") + File.separator + remoteFile.getName());
-                //Use this instead:
-                downloadFile = new File(localPath + remoteFile.getName());
-                System.out.println("Retrieving " + downloadFile); //Prints the full path of the downloaded file
-                outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
-                boolean success = ftpClient.retrieveFile(remoteFileName, outputStream);
-                if (!success) { //if a file failed to transfer, error out
-                    System.err.println("Retrieval of a file failed.");
-                    return false;
-                }
-                outputStream.close();
-            }
-            return true;
-        } catch (IOException e) {
-            System.out.println(e);
+        if (!ftpClient.isConnected())
+        {
+            System.out.println("Cannot download files - FTP client is not connected!");
+            return false;
         }
-        return false;
+
+        int numFiles = list.length - 1;
+        String localPath = list[list.length - 1]; //path to save files to (last arg)
+
+        // Strip trailing /
+        localPath = localPath.replaceAll("/$", "");
+
+        // Check that localPath is a directory
+        File localDirectory = new File(localPath);
+        if (!localDirectory.exists() || !localDirectory.isDirectory()) {
+            System.out.println("Couldn't not download files to target local path: " + localPath + ": target local path must be a directory");
+        }
+
+        ftpClient.enterLocalPassiveMode();
+        try {
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+        } catch (IOException e) {
+            System.out.println("Unexpected FTPClient error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        boolean success = true;
+
+        System.out.println("");
+
+        for (int i = 0; i < numFiles; ++i) {
+
+            String remoteFilePath = list[i];
+            File remoteFile = new File(remoteFilePath);
+            String downloadedFilePath = localPath + "/" + remoteFile.getName();
+
+            success &= downloadFile(remoteFilePath, downloadedFilePath);
+
+            System.out.println("");
+
+        }
+
+        return success;
+    }
+
+    // Downloads file at remotePath to localPath. Returns true on success, false on failure.
+    // ftpClient must be connected for this to work; otherwise this method does nothing and returns false.
+    private boolean downloadFile(String remotePath, String localPath) {
+
+        if (!ftpClient.isConnected()) {
+            System.out.println("Cannot download file, ftp client is not connected");
+            return false;
+        }
+
+        File downloadFile = new File(localPath);
+
+        System.out.println("Downloading " + remotePath + " to local path: " + localPath);
+
+        if (isRemotePathADirectory(remotePath)) {
+            System.out.println("Cannot download directory " + remotePath + " -- directory downloading is not supported");
+            return false;
+        }
+
+        if (!doesRemoteFileExistAtPath(remotePath)) {
+            System.out.println("Cannot download file at " + remotePath + " -- file does not exist");
+            return false;
+        }
+
+        OutputStream outputStream = null;
+        try {
+            outputStream = new BufferedOutputStream(new FileOutputStream(downloadFile));
+        } catch (FileNotFoundException e) {
+            System.out.println("Unexpected exception while creating local file: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            if (!ftpClient.retrieveFile(remotePath, outputStream)) {
+                System.err.println("Could not download file: " + remotePath);
+
+                // clean up local file
+                outputStream.close();
+                if (downloadFile.exists()) {
+                    downloadFile.delete();
+                }
+                return false;
+            }
+        } catch (IOException e) {
+            System.out.println("Unexpected exception while retrieving file: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            System.out.println("Unexpected exception while closing output stream: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     // Uploads one or more files to the specified path.
@@ -287,6 +358,36 @@ public class FTPCore {
             return false;
         }
         return true;
+    }
+
+    // Returns true if the remote path is a directory, otherwise returns false.
+    //
+    // ftpClient must be connected before calling this method (otherwise, it always returns false).
+    private boolean isRemotePathADirectory(String path) {
+        try {
+            // Check by attempting to CWD to the target path. Yes, this is how it's done.
+            String oldWD = ftpClient.printWorkingDirectory();
+            boolean dirExists = ftpClient.changeWorkingDirectory(path);
+            ftpClient.changeWorkingDirectory(oldWD);
+            return dirExists;
+        } catch (IOException e) {
+            System.out.println("Unexpected exception: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Checks if a file exists at the remote path path.
+    //
+    // ftpClient must be connected before calling this method, otherwise it always returns false.
+    private boolean doesRemoteFileExistAtPath(String path) {
+        try {
+            return (ftpClient.listFiles(path).length > 0) ? true : false;
+        } catch (IOException e) {
+            System.out.println("Unexpected exception: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private FTPConnection currentConnection;
