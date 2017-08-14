@@ -175,22 +175,28 @@ public class FTPCore {
     // *note that the "uploads" directory must exist or this will fail and return false
     // *also, new name can be in a different (existing) directory
     public Boolean renameFile(FTPServerInfo serverInfo, String[] list) {
-        try {
-            connect(serverInfo);
-        } catch (ConnectionFailedException ex) {
-            System.out.println(ex);
-            System.exit(1);
+
+        if (!isConnected()) {
+            try {
+                connect(serverInfo);
+            } catch (ConnectionFailedException ex) {
+                System.out.println("Could not connect to FTP server: " + ex.getMessage());
+                return false;
+            }
         }
+
+        if (!doesRemoteFileExistAtPath(list[0])) {
+            System.out.println("Could not rename file at path " + list[0] + " -- file does not exist");
+            return false;
+        }
+
         try {
             return ftpClient.rename(list[0], list[1]);
         } catch (IOException ex) {
-            System.out.println(ex);
-            System.exit(1);
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getStackTrace());
+            return false;
         }
-
-        //shouldn't ever reach here, just for making compiler happy.
-        System.out.println("File renaming encountered an unexpected error.");
-        return false;
     }
 
     // Retrieves files from remote. All option arguments after -g are treated as remote file paths to be downloaded.
@@ -203,7 +209,7 @@ public class FTPCore {
     //
     // The ftpClient must be connected before calling this method.
     public Boolean getFiles(FTPServerInfo serverInfo, String[] list) {
-        if (!ftpClient.isConnected())
+        if (!isConnected())
         {
             try {
                 connect(serverInfo);
@@ -256,7 +262,7 @@ public class FTPCore {
     // ftpClient must be connected for this to work; otherwise this method does nothing and returns false.
     private boolean downloadFile(String remotePath, String localPath) {
 
-        if (!ftpClient.isConnected()) {
+        if (!isConnected()) {
             System.out.println("Cannot download file, ftp client is not connected");
             return false;
         }
@@ -322,7 +328,7 @@ public class FTPCore {
 
         System.out.println("");
 
-        if (!ftpClient.isConnected()) {
+        if (!isConnected()) {
             try {
                 connect(serverInfo);
             } catch (ConnectionFailedException e) {

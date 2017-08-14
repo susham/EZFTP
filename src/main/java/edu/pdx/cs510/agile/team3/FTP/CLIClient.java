@@ -177,7 +177,7 @@ public class CLIClient {
         Option renameOption = new Option("rn",
                 "rename",
                 true,
-                "rename a file from first specified path to second specified path");
+                "rename a file at first specified path to second specified path");
         renameOption.setArgs(2);
         renameOption.setArgName("STRING");
         renameOption.setRequired(false);
