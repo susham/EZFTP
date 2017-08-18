@@ -366,7 +366,25 @@ public class EZFTPGUIClient extends JFrame{
                     public void actionPerformed(ActionEvent e) {
                         Object[] paths = tree2.getSelectionPath().getPath();
                         String remotesitePath = getSelectedNodePath(paths);
-                        System.out.println(remotesitePath);
+                        //check if a directory or file
+                        try {
+                          ftpClient.connect(serverInfo.host, serverInfo.port);
+                          ftpClient.login(serverInfo.username, serverInfo.password);
+                          String savePath = JOptionPane.showInputDialog("Enter the path to save to:");
+                          ftpClient.changeWorkingDirectory(remotesitePath);
+                          int returnCode = ftpClient.getReplyCode();
+                          if (returnCode != 550) { //If it is a valid directory
+                            ftpCore.downloadDirectory(remotesitePath, "", savePath); //save the directory
+                          } else { //Check if valid file
+                            InputStream inputStream = ftpClient.retrieveFileStream(remotesitePath);
+                            returnCode = ftpClient.getReplyCode();
+                            if (returnCode != 550) { // return code 550: file/directory is unavailable
+                              ftpCore.downloadFile(remotesitePath, savePath); //save the file
+                            }
+                          }
+                        } catch (Exception ex) {
+                          System.out.println("Exception occurred for deleting remote file from GUI\n\n" + ex);
+                        }
                     }
                 });
                 JMenuItem refreshRemote = new JMenuItem("Refresh");

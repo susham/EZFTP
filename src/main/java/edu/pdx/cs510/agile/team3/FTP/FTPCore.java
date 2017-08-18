@@ -328,7 +328,7 @@ public class FTPCore {
 
     // Downloads file at remotePath to localPath. Returns true on success, false on failure.
     // ftpClient must be connected for this to work; otherwise this method does nothing and returns false.
-    private boolean downloadFile(String remotePath, String localPath) {
+    public boolean downloadFile(String remotePath, String localPath) {
 
         if (!isConnected()) {
             System.out.println("Cannot download file, ftp client is not connected");
