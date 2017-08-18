@@ -356,10 +356,18 @@ public class EZFTPGUIClient extends JFrame{
                         System.out.println(remotesitePath);
                     }
                 });
+                JMenuItem refreshRemote = new JMenuItem("Refresh");
+                refreshRemote.addActionListener(new ActionListener() {
+                  @Override
+                  public void actionPerformed(ActionEvent e) {
+                    showRemoteFileList(ftpCore);
+                  }
+                });
                 remotesitemenu.add(createDirectoryItem);
                 remotesitemenu.add(createFileItem);
                 remotesitemenu.add(deleteItem);
                 remotesitemenu.add(downloadItem);
+                remotesitemenu.add(refreshRemote);
                 tree2.setComponentPopupMenu(remotesitemenu);
             }
         }
