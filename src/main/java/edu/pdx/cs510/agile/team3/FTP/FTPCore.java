@@ -232,7 +232,7 @@ public class FTPCore {
         // Check that localPath is a directory
         File localDirectory = new File(localPath);
         if (!localDirectory.exists() || !localDirectory.isDirectory()) {
-            System.out.println("Couldn't not download files to target local path: " + localPath + ": target local path must be a directory");
+            System.out.println("Could not download files to target local path: " + localPath + ": target local path must be a directory");
         }
 
         ftpClient.enterLocalPassiveMode();
