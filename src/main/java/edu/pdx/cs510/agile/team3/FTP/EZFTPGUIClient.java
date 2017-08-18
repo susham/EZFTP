@@ -318,7 +318,20 @@ public class EZFTPGUIClient extends JFrame{
                     public void actionPerformed(ActionEvent e) {
                         Object[] paths = tree2.getSelectionPath().getPath();
                         String remotesitePath = getSelectedNodePath(paths);
-                        System.out.println(remotesitePath);
+                        String fileName = JOptionPane.showInputDialog("Enter new file name");
+
+                        File newFile = new File(System.getProperty("user.dir") + File.separator + fileName);
+                      try {
+                        newFile.createNewFile();
+                      } catch (IOException e1) {
+                        e1.printStackTrace();
+                      }
+                      String[] list = new String[2];
+                      list[0] = newFile.getPath();
+                      list[1] = remotesitePath;
+                      ftpCore.uploadFiles(serverInfo, list);
+                      //delete new file from local
+                      newFile.delete();
                     }
                 });
                 JMenuItem deleteItem = new JMenuItem("Delete");
