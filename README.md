@@ -1,6 +1,10 @@
 ## Project Description
 
+Copyright © 2017 Kenneth Martin, Susham Yerabolu, Henry Cooney, Matthew Hawkins, Dakota Sanchez, Chris Kim
+
 This is a simple FTP client written in Java. Currently, it provides a command line interface for common FTP tasks. A rudimentary GUI is also provided.
+
+This program is licensed under the "MIT License". Please see the file COPYING in the source distribution of this software for license terms.
 
 ## Contributor Information
 (CS561) Kenneth Martin, Github: glass2/risingAsh, email: kenneth6@pdx.edu
