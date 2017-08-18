@@ -58,14 +58,14 @@ public class CLIClient {
         Option getCommand = new Option("g",
                 "get",
                 true,
-                "downloads files from server to the specified path");
+                "downloads remote files(s) to the specified local path. The last argument is the local path, all preceeding arguments are remote files.");
         getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
 
         Option putCommand = new Option("up",
                 "upload",
                 true,
-                "uploads files from local to remote to the specified path");
+                "uploads local file(s) to the specified remote path. The last argument is the remote path, all preceeding arguments are local paths.");
         putCommand.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(putCommand);
 
@@ -177,7 +177,7 @@ public class CLIClient {
         Option renameOption = new Option("rn",
                 "rename",
                 true,
-                "rename a file from first specified path to second specified path");
+                "rename a file at first specified path to second specified path");
         renameOption.setArgs(2);
         renameOption.setArgName("STRING");
         renameOption.setRequired(false);
@@ -276,10 +276,6 @@ public class CLIClient {
             System.out.println("Could not print the local machine root directories");
             return false;
         }
-
-
-
-
     }
 
     // Start the CLI client; parse user input and execute the requested command
@@ -313,26 +309,26 @@ public class CLIClient {
             }
             else if (line.hasOption("get")) {
                 String[] list = line.getOptionValues("get");
-                if (ftpCore.getFiles(serverInfo, list)) {
-                    if (list.length == 2)
-                        System.out.println("File has been downloaded successfully.");
-                    else
-                        System.out.println("Files have been downloaded successfully.");
-                }
-                else { //one or more files failed
-                    //log?
+                if (attemptToConnect(serverInfo)) {
+                    if (ftpCore.getFiles(serverInfo, list)) {
+                        System.out.println("All files downloaded successfully.");
+                    } else {
+                        System.out.println("Warning -- at least one file download failed.");
+                    }
+                } else {
+                    System.out.println("Download failed, could not connected to FTP server.");
                 }
             }
             else if (line.hasOption("upload")) {
                 String[] list = line.getOptionValues("upload");
-                if (ftpCore.uploadFiles(serverInfo, list)) {
-                    if (list.length == 2)
-                        System.out.println("File has been uploaded successfully.");
-                    else
-                        System.out.println("Files have been uploaded successfully.");
-                }
-                else {
-                    //log failed transfers?
+                if (attemptToConnect(serverInfo)) {
+                    if (ftpCore.uploadFiles(serverInfo, list)) {
+                        System.out.println("All files uploaded successfully.");
+                    } else {
+                        System.out.println("Warning -- at least one file upload failed.");
+                    }
+                } else {
+                    System.out.println("Upload failed, could not connected to FTP server.");
                 }
             }
             else if (line.hasOption("list")) {
