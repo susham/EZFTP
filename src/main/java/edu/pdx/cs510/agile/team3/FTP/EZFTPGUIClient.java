@@ -229,7 +229,6 @@ public class EZFTPGUIClient extends JFrame{
     private void localSiteMouseClicked(MouseEvent e) {
         if(SwingUtilities.isRightMouseButton(e)){
 
-
                 JPopupMenu menu = new JPopupMenu ();
                 JMenuItem uploadItem=new JMenuItem ( "Upload" );
                 uploadItem.addActionListener(new ActionListener() {
@@ -243,16 +242,18 @@ public class EZFTPGUIClient extends JFrame{
                           File uploadfile= new File(completePath);
                         if(uploadfile.isDirectory())
                         {// upload all the files and sub directories under the root directory of the server
-
+                          String remotePath = JOptionPane.showInputDialog("Enter remote path to upload to");
+                          try {
+                            ftpCore.uploadDirectory(remotePath, completePath, "");
+                          } catch (IOException e1) {
+                            e1.printStackTrace();
+                          }
                         }
-                        else
-                        {
-                            //upload a single file to the root directory o
-
-
+                        else {
+                          String remotePath = JOptionPane.showInputDialog("Enter remote path to upload to");
+                          //upload a single file to the root directory o
+                          ftpCore.uploadFile(remotePath, completePath);
                         }
-
-
                     }
                 });
 

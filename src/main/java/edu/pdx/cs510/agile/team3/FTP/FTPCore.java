@@ -381,7 +381,7 @@ public class FTPCore {
 
     // Uploads a single file from localPath to remotePath. ftpClient must be connected, or
     // this method will fail.
-    private boolean uploadFile(String remotePath, String localPath) {
+    public boolean uploadFile(String remotePath, String localPath) {
 
         System.out.println("Uploading file " + localPath + " to remote path: " + remotePath);
 
