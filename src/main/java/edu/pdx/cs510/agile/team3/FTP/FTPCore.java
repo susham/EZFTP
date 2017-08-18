@@ -47,6 +47,9 @@ public class FTPCore {
 
         disconnect();
 
+        ftpClient.setConnectTimeout(5000);
+        ftpClient.setDefaultTimeout(5000);
+
         try {
             ftpClient.connect(serverInfo.host, serverInfo.port);
         } catch (IOException e) {
