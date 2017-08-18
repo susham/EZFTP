@@ -4,11 +4,17 @@ This is a simple FTP client written in Java. Currently, it provides a command li
 
 ## Contributor Information
 (CS561) Kenneth Martin, Github: glass2/risingAsh, email: kenneth6@pdx.edu
+
 (CS561) Susham Yerabolu, Github: susham, email: yerabolu@pdx.edu
+
 Henry Cooney, Github: hacoo, email: hcooney@pdx.edu
+
 Dakota Sanchez, Github: dakotasanchez, email: daks2@pdx.edu
+
 Chris Kim, Github: sayunkim, email: kimchris@pdx.edu
+
 Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
+
 
 ## Status
 
