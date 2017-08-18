@@ -2,9 +2,17 @@
 
 This is a simple FTP client written in Java. Currently, it provides a command line interface for common FTP tasks. A rudimentary GUI is also provided.
 
+## Contributor Information
+(CS561) Kenneth Martin, Github: glass2/risingAsh, email: kenneth6@pdx.edu
+(CS561) Susham Yerabolu, Github: susham, email: yerabolu@pdx.edu
+Henry Cooney, Github: hacoo, email: hcooney@pdx.edu
+Dakota Sanchez, Github: dakotasanchez, email: daks2@pdx.edu
+Chris Kim, Github: sayunkim, email: kimchris@pdx.edu
+Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
+
 ## Status
 
-   Most command line options are currently working and tested. You may run the application in gui mode; however, most gui functionality has not been implemented yet.
+   Most command line options are currently working and tested. The GUI is mostly implemented, but there are some options that have not been implemented yet.  Note that the GUI has not been thorougly tested and may be buggy.
 
 ## Requirements
 
@@ -19,7 +27,7 @@ This is a simple FTP client written in Java. Currently, it provides a command li
 
 ## Pre-built Install
 
-   A pre-built executable is provided with this repository at /build/distributions/cs510-agile-team3.zip. To run it, use the following steps:
+   A pre-built executable is provided with this repository at /build/distributions/EZFTP.jar. To run it, use the following steps:
 
    > cd build/distributions/
    > tar -xvf cs510-agile-team3.tar
@@ -76,8 +84,6 @@ This is a simple FTP client written in Java. Currently, it provides a command li
 
 
 ## Using the GUI
-
-   This software include a GUI, however, the GUI is not yet fully functional! You may open it, but don't expect it to do anything useful yet.
 
    To run in gui mode use:
 
