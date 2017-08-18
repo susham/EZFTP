@@ -360,13 +360,6 @@ public class CLIClient {
             else if (line.hasOption("delDir")) {
                 String path = line.getOptionValue("delDir");
                 ftpCore.deleteDirectory(serverInfo, path);
-                /*if (ftpCore.deleteDirectory(serverInfo, path)) {
-                    System.out.println("Directory was successfully deleted.")
-                } else {
-                    System.out.println("Directory deletion failed.");
-                }
-                */
-
             }
             else if (line.hasOption("rename")) {
                 String[] list = line.getOptionValues("rename");
