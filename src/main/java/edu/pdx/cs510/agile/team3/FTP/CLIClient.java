@@ -69,6 +69,13 @@ public class CLIClient {
         putCommand.setArgs(Option.UNLIMITED_VALUES);
         options.addOption(putCommand);
 
+        Option putDirCommand = new Option("ud",
+                "uploadDirectory",
+                true,
+                "uploads a directory to the specified remote path. Ex. -ud remotePath localPath");
+        putDirCommand.setArgs(2);
+        options.addOption(putDirCommand);
+
         // List contents of directory at path
         Option listCommand = new Option("ls",
                 "list",
@@ -329,6 +336,18 @@ public class CLIClient {
                     }
                 } else {
                     System.out.println("Upload failed, could not connected to FTP server.");
+                }
+            }
+            else if (line.hasOption("uploadDirectory")) {
+                String[] list = line.getOptionValues("uploadDirectory");
+                if (attemptToConnect(serverInfo)) {
+                    try {
+                        ftpCore.uploadDirectory(list[0], list[1], ""); //first arg in list is remotePath, second is localPath
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                } else {
+                    System.out.println("Could not connect to server. Uploading cancelled.");
                 }
             }
             else if (line.hasOption("list")) {

@@ -424,7 +424,78 @@ public class FTPCore {
         }
     }
 
+    /**
+     * Uploads the contents of a directory. Does not copy the topmost folder itself, just its contents. Be sure to
+     * create a new directory, or choose a directory for which all of the contents will be copied to if you want the
+     * contents to reside in a single folder.
+     * Ex. you want to upload a directory called newDir that has a subfolder newSubDir
+     * -ud / newDir
+     * This will upload the contents of newDir (only the subfolder, newSubDir) to /newSubDir
+     * In order to create newDir at root and have its contents copied you must first create newDir at root
+     * -nd /newDir
+     * then: -ud /newDir newDir
+     *
+     * @param remoteDirPath
+     *            Path of the destination directory on the server.
+     * @param localParentDir
+     *            Path of the local directory being uploaded.
+     * @param remoteParentDir
+     *            Path of the parent directory of the current directory on the
+     *            server (used by recursive calls).
+     * @throws IOException
+     *             if any network or IO error occurred.
+     */
+    //Source: codejava.net, edited by Kenneth Martin
+    public void uploadDirectory(String remoteDirPath, String localParentDir, String remoteParentDir)
+            throws IOException {
 
+        System.out.println("LISTING directory: " + localParentDir);
+
+        File localDir = new File(localParentDir);
+        File[] subFiles = localDir.listFiles();
+        if (subFiles != null && subFiles.length > 0) {
+            for (File item : subFiles) {
+                String remoteFilePath = remoteDirPath + "/" + remoteParentDir
+                        + "/" + item.getName();
+                if (remoteParentDir.equals("")) {
+                    remoteFilePath = remoteDirPath + "/" + item.getName();
+                }
+
+                if (item.isFile()) {
+                    // upload the file
+                    String localFilePath = item.getAbsolutePath();
+                    System.out.println("About to upload the file: " + localFilePath);
+                    boolean uploaded = uploadFile(remoteFilePath, localFilePath);
+                    if (uploaded) {
+                        System.out.println("UPLOADED a file to: "
+                                + remoteFilePath);
+                    } else {
+                        System.out.println("COULD NOT upload the file: "
+                                + localFilePath);
+                    }
+                } else {
+                    // create directory on the server
+                    boolean created = ftpClient.makeDirectory(remoteFilePath);
+                    if (created) {
+                        System.out.println("CREATED the directory: "
+                                + remoteFilePath);
+                    } else {
+                        System.out.println("COULD NOT create the directory: "
+                                + remoteFilePath);
+                    }
+
+                    // upload the sub directory
+                    String parent = remoteParentDir + "/" + item.getName();
+                    if (remoteParentDir.equals("")) {
+                        parent = item.getName();
+                    }
+
+                    localParentDir = item.getAbsolutePath();
+                    uploadDirectory(remoteDirPath, localParentDir, parent);
+                }
+            }
+        }
+    }
 
     // Returns true if the remote path is a directory, otherwise returns false.
     //
