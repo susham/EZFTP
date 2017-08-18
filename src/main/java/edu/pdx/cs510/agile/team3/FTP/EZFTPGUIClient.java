@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.*;
 import javax.swing.GroupLayout;
 import javax.swing.event.*;
@@ -277,6 +278,7 @@ public class EZFTPGUIClient extends JFrame{
 
     private void remoteSiteMouseClicked(MouseEvent e) {
         // TODO add your code here
+      FTPClient ftpClient = new FTPClient();
         if (SwingUtilities.isRightMouseButton(e)) {
             if (isRemoteSiteTreeInit) {
                 JPopupMenu remotesitemenu = new JPopupMenu();
@@ -288,12 +290,11 @@ public class EZFTPGUIClient extends JFrame{
                             //can make this code better.
                             Object[] paths = tree2.getSelectionPath().getPath();
                             String remotesitePath = getSelectedNodePath(paths);
-                            FTPClient ftpClient = new FTPClient();
                             ftpClient.connect(serverInfo.host, serverInfo.port);
                             ftpClient.login(serverInfo.username, serverInfo.password);
                             ftpClient.changeWorkingDirectory(remotesitePath);
                             int returnCode = ftpClient.getReplyCode();
-                            if (returnCode != 550) {
+                            if (returnCode != 550) { //If it is a valid directory
                                 String directoryName = JOptionPane.showInputDialog("Enter new directory name");
                                 if(directoryName !=null) {
                                     boolean isCreated=ftpCore.createNewDirectory(serverInfo,remotesitePath+File.separator+ directoryName);
@@ -325,7 +326,24 @@ public class EZFTPGUIClient extends JFrame{
                     public void actionPerformed(ActionEvent e) {
                         Object[] paths = tree2.getSelectionPath().getPath();
                         String remotesitePath = getSelectedNodePath(paths);
-                        System.out.println(remotesitePath);
+                        //check if a directory or file
+                        try {
+                          ftpClient.connect(serverInfo.host, serverInfo.port);
+                          ftpClient.login(serverInfo.username, serverInfo.password);
+                          ftpClient.changeWorkingDirectory(remotesitePath);
+                          int returnCode = ftpClient.getReplyCode();
+                          if (returnCode != 550) { //If it is a valid directory
+                            ftpCore.deleteDirectory(serverInfo, remotesitePath); //delete the folder
+                          } else { //Check if valid file
+                            InputStream inputStream = ftpClient.retrieveFileStream(remotesitePath);
+                            returnCode = ftpClient.getReplyCode();
+                            if (returnCode != 550) { // return code 550: file/directory is unavailable
+                              ftpCore.deleteFile(serverInfo, remotesitePath); //delete the file
+                            }
+                          }
+                        } catch (Exception ex) {
+                          System.out.println("Exception occurred for deleting remote file from GUI\n\n" + ex);
+                        }
                     }
                 });
                 JMenuItem downloadItem = new JMenuItem("Download");
