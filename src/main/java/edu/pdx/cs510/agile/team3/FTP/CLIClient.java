@@ -62,6 +62,13 @@ public class CLIClient {
         getCommand.setArgs(Option.UNLIMITED_VALUES); //you can retrieve as many files as you want
         options.addOption(getCommand);
 
+        Option getDirCommand = new Option("gd",
+                "getDirectory",
+                true,
+                "downloads remote folder to the specified local path.");
+        getDirCommand.setArgs(2); //remoteFolderToBeSavedPath, localSavePath
+        options.addOption(getDirCommand);
+
         Option putCommand = new Option("up",
                 "upload",
                 true,
@@ -321,6 +328,18 @@ public class CLIClient {
                         System.out.println("All files downloaded successfully.");
                     } else {
                         System.out.println("Warning -- at least one file download failed.");
+                    }
+                } else {
+                    System.out.println("Download failed, could not connected to FTP server.");
+                }
+            }
+            else if (line.hasOption("getDirectory")) {
+                String[] list = line.getOptionValues("getDirectory");
+                if (attemptToConnect(serverInfo)) {
+                    try {
+                        ftpCore.downloadDirectory(list[0], "", list[1]);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 } else {
                     System.out.println("Download failed, could not connected to FTP server.");
