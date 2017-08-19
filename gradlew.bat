@@ -5,6 +5,11 @@
 @rem
 @rem ##########################################################################
 
+@rem Copyright © 2017 Kenneth Martin, Susham Yerabolu, Henry Cooney, Matthew Hawkins, Dakota Sanchez, Chris Kim
+@rem [This program is licensed under the "MIT License"]
+@rem Please see the file COPYING in the source
+@rem distribution of this software for license terms.
+
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 
