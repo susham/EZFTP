@@ -37,14 +37,7 @@ Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
 
 ## Pre-built Install
 
-   A pre-built executable is provided with this repository at /build/distributions/EZFTP.jar. To run it, use the following steps:
-
-   > cd build/distributions/
-   > tar -xvf cs510-agile-team3.tar
-   > cd cs510-agile-team3/bin
-   > ./cs510-agile-team3 [options]
-
-   So, the pre-build executable is located in the /bin directory of cs510-agile-team3.tar.
+   A pre-built executable is provided with this repository at /build/distributions/EZFTP.jar. 
 
 ## Building this project
 
@@ -58,7 +51,7 @@ Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
 
    The command-line interface accepts two types of options, 'connection parameters' and 'commands'. Connection parameters include things like the server hostname, username, password, and the port; to run the client, you must provide at least the hostname, username, and password. The 'command' is the action to execute (e.g., 'get' a file from a path). If multiple commands are given, only one will be executed. For example, the following command would connect to the host at IP 123.45.67.800, on port 23, and download a file to the current directory:
 
-   > ./cs510-agile-team3 -h 123.45.67.800 -un user -pw pword -p 23 -g /path/to/file .
+   > ./EZFTP.jar -h 123.45.67.800 -un user -pw pword -p 23 -g /path/to/file .
 
    The following connection parameters are mandatory:
    
@@ -82,15 +75,15 @@ Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
 
    The following command downloads two files from the remote path working/ to the current directory:
 
-   > ./cs510-agile-team3 -h 123.45.67.800 -un user -pw pword -g /working/f1.txt /working/f2.txt .
+   > ./EZFTP.jar -h 123.45.67.800 -un user -pw pword -g /working/f1.txt /working/f2.txt .
 
    This command uploads two files from the current directory to working/:
 
-   > ./cs510-agile-team3 -h 123.45.67.800 -un user -pw pword -up f1.txt f2.txt working/
+   > ./EZFTP.jar -h 123.45.67.800 -un user -pw pword -up f1.txt f2.txt working/
 
    This command moves the remote file f1.txt to the remote directory working/f2.txt:
 
-   > ./cs510-agile-team3 -h 123.45.67.800 -un user -pw pword -rn f1.txt working/f2.txt
+   > ./EZFTP.jar -h 123.45.67.800 -un user -pw pword -rn f1.txt working/f2.txt
 
 
 ## Using the GUI
