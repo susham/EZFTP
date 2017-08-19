@@ -6,6 +6,11 @@
 ##
 ##############################################################################
 
+# Copyright © 2017 Kenneth Martin, Susham Yerabolu, Henry Cooney, Matthew Hawkins, Dakota Sanchez, Chris Kim
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
+
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
 DEFAULT_JVM_OPTS=""
 
