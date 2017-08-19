@@ -8,6 +8,11 @@
  * Detailed information about configuring a multi-project build in Gradle can be found
  * in the user guide at http://gradle.org/docs/2.4/userguide/multi_project_builds.html
  */
+ 
+/* Copyright © 2017 Kenneth Martin, Susham Yerabolu, Henry Cooney, Matthew Hawkins, Dakota Sanchez, Chris Kim
+ * [This program is licensed under the "MIT License"]
+ * Please see the file COPYING in the source
+ * distribution of this software for license terms.*/
 
 /*
 // To declare projects as part of a multi-project build use the 'include' method
