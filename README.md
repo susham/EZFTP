@@ -97,7 +97,12 @@ Matthew Hawkins, Github: hawkins00, email: mhawkins@pdx.edu
 
    To run in gui mode use:
 
-   > ./cs510-agile-team3 -gui
+   > ./EZFTP.jar -gui
 
    You do not need to provide connection parameters to run in gui mode.
+   
+   After entering this command, a new window should pop up with textboxes for the Username, Password, Server Address, Port, and Name. To the right of these textboxes is the "Quick Connect" button, and the "Save Connection" button.  To start the ftp client, enter in the relevant information of the server into the textboxes and click Quick Connect (Name field is not necessary).  Note that the Save Connection button was meant to save this login information and map it to the name given in the Name textbox for quick validation on subsequent uses, but the functionality has not yet been implemented so this button currently does nothing.
+   Upon successful connection, you should see a success message, followed by the folder tree of your server in the right-hand pane.  You should also see the folder tree of your local machine on the left-hand pane.  Note that if the left-hand pane shows directory structure starting at "JTree", that means there was an error retrieving your folder hierarchy (this happens when using Windows, which is not supported yet).
+   You can view what ftp options are availabe by right-clicking a file or folder in either of the panes.  Right-clicking in the remote pane (right) will show you the options to Create Directory, Create File, Delete, Download, and Refresh.  These options are all implemented and can be used, and are straightforward to use.  Right-clicking in the left pane shows you the options of Upload, Rename, and Delete.  Currently, only the Upload option has been implemented.
+   Note that after making any changes to the server, you need to use the Refresh option to view the changes.
 
