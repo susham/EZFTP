@@ -1,3 +1,8 @@
+// Copyright © 2017 Kenneth Martin, Susham Yerabolu, Henry Cooney, Matthew Hawkins, Dakota Sanchez, Chris Kim
+// [This program is licensed under the "MIT License"]
+// Please see the file COPYING in the source
+// distribution of this software for license terms.
+
 import edu.pdx.cs510.agile.team3.FTP.ConnectionFailedException;
 import edu.pdx.cs510.agile.team3.FTP.FTPCore;
 import edu.pdx.cs510.agile.team3.FTP.FTPServerInfo;
