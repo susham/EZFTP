@@ -11,8 +11,6 @@ This program is licensed under the "MIT License". Please see the file COPYING in
 
 (CS561) Susham Yerabolu, Github: susham, email: yerabolu@pdx.edu
 
-Henry Cooney, Github: hacoo, email: hcooney@pdx.edu
-
 Dakota Sanchez, Github: dakotasanchez, email: daks2@pdx.edu
 
 Chris Kim, Github: sayunkim, email: kimchris@pdx.edu
